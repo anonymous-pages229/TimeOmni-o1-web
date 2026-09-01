@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TimeOmni-o1 &middot; MMTR</title>
+<meta name="description" content="Project page for TimeOmni-o1 and the MMTR dataset: model figures, dataset composition, annotated samples and case studies. Anonymous submission.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#abstract">Skip to content</a>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#top">TimeOmni-o1</a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#abstract">Abstract</a><a href="#model">Model</a><a href="#dataset">Dataset</a><a href="#samples">Samples</a><a href="#cases">Case studies</a>
+    </nav>
+    <span class="anon">Anonymous submission</span>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <p class="eyebrow">Project page &middot; under double-blind review</p>
+  <h1>TimeOmni-o1<span class="colon">:</span> <span class="sub">Multimodal Time Series Reasoning by Coupling a Time Series Foundation Model with a Large Language Model</span></h1>
+  <p class="lede">A pretrained time series foundation model (TSFM) and a large language model (LLM) connected in a loop: the TSFM lets the LLM read the series, and the LLM's reasoning steers the TSFM's forecast. Trained on MMTR, a multimodal time series reasoning dataset with annotated reasoning traces.</p>
+  <div class="hero-plot">
+    <svg class="hero-series" viewBox="0 0 1000 160" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect x="718.6" y="0" width="131.7" height="160" fill="var(--roi)"/><line x1="712.6" y1="0" x2="712.6" y2="160" stroke="var(--muted)" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/><polyline points="0.0,148.2 6.0,149.7 12.0,151.0 18.0,149.9 24.0,149.7 29.9,146.4 35.9,143.6 41.9,138.1 47.9,133.8 53.9,127.7 59.9,120.7 65.9,121.0 71.9,118.1 77.8,117.8 83.8,120.2 89.8,123.0 95.8,120.4 101.8,122.5 107.8,124.3 113.8,130.2 119.8,133.8 125.7,134.7 131.7,139.5 137.7,144.8 143.7,148.3 149.7,150.2 155.7,151.3 161.7,151.8 167.7,150.8 173.7,149.7 179.6,147.6 185.6,144.8 191.6,142.0 197.6,135.1 203.6,129.8 209.6,126.6 215.6,125.7 221.6,125.2 227.5,125.9 233.5,122.9 239.5,128.2 245.5,126.0 251.5,130.8 257.5,142.8 263.5,138.5 269.5,141.2 275.4,144.8 281.4,149.6 287.4,150.4 293.4,151.8 299.4,152.0 305.4,151.1 311.4,147.9 317.4,138.7 323.4,125.9 329.3,98.5 335.3,80.0 341.3,107.2 347.3,116.0 353.3,119.1 359.3,119.4 365.3,116.0 371.3,116.6 377.2,102.6 383.2,47.2 389.2,29.4 395.2,75.0 401.2,126.5 407.2,136.1 413.2,138.8 419.2,143.4 425.1,148.3 431.1,150.5 437.1,151.0 443.1,150.9 449.1,150.8 455.1,147.5 461.1,137.9 467.1,125.4 473.1,103.2 479.0,101.1 485.0,105.8 491.0,106.1 497.0,113.2 503.0,114.8 509.0,117.4 515.0,82.6 521.0,61.7 526.9,42.1 532.9,8.0 538.9,59.1 544.9,124.0 550.9,131.9 556.9,135.7 562.9,142.1 568.9,147.2 574.9,150.3 580.8,151.2 586.8,151.9 592.8,150.7 598.8,147.0 604.8,138.2 610.8,130.1 616.8,120.3 622.8,118.5 628.7,112.6 634.7,112.5 640.7,113.1 646.7,93.7 652.7,69.5 658.7,75.8 664.7,62.0 670.7,83.9 676.6,100.5 682.6,121.2 688.6,128.0 694.6,133.4 700.6,133.8 706.6,138.8 712.6,145.1" fill="none" stroke="var(--blue)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/><polyline points="712.6,145.1 718.6,148.7 724.6,150.8 730.5,151.6 736.5,151.5 742.5,150.7 748.5,149.5 754.5,148.1 760.5,143.9 766.5,142.4 772.5,138.8 778.4,136.4 784.4,132.0 790.4,131.2 796.4,133.6 802.4,134.3 808.4,135.7 814.4,137.2 820.4,135.7 826.3,137.5 832.3,136.2 838.3,133.6 844.3,134.3 850.3,138.1 856.3,141.2 862.3,143.9 868.3,148.0 874.3,150.3 880.2,151.4 886.2,150.5 892.2,148.3 898.2,145.7 904.2,142.9 910.2,139.5 916.2,134.9 922.2,129.2 928.1,125.2 934.1,124.2 940.1,124.7 946.1,125.2 952.1,124.6 958.1,114.8 964.1,125.9 970.1,127.9 976.0,132.8 982.0,136.4 988.0,136.7 994.0,137.8 1000.0,145.3" fill="none" stroke="var(--orange)" stroke-width="1.8" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>
+    <p class="legend"><span class="sw sw-b"></span>history <span class="sw sw-o"></span>future (ground truth) <span class="sw sw-r"></span>event window (ROI) <span class="note">&mdash; sample <a href="#F03">F03</a> of MMTR: hourly California freeway traffic around Thanksgiving Day 2016</span></p>
+  </div>
+</section>
+
+<div class="shell">
+<nav class="toc" aria-label="On this page">
+  <p class="toc-h">On this page</p>
+  <a href="#abstract">Abstract</a>
+  <a href="#model">Model</a>
+  <a class="l2" href="#model-overview">Overview</a>
+  <a class="l2" href="#series-to-llm">Series to LLM</a>
+  <a class="l2" href="#llm-to-tsfm">LLM to TSFM</a>
+  <a href="#dataset">Dataset: MMTR</a>
+  <a class="l2" href="#dataset-understanding">Understanding task</a>
+  <a class="l2" href="#dataset-forecasting">Forecasting task</a>
+  <a class="l2" href="#dataset-composition">Composition &amp; annotation</a>
+  <a href="#samples">Samples</a>
+  <a class="l2" href="#samples-und">Understanding U01&ndash;U12</a>
+  <a class="l2" href="#samples-fc">Forecasting F01&ndash;F05</a>
+  <a href="#cases">Case studies</a>
+  <a class="l2" href="#cases-und">Understanding</a>
+  <a class="l2" href="#cases-fc">Forecasting</a>
+</nav>
+
+<div class="content">
+
+<section id="abstract" class="sec">
+  <h2>Abstract</h2>
+  <p class="abstract">Real-world time series rarely come alone: reports, instructions and external events decide what a numerical pattern means and how it will continue. Reading a series together with its context therefore calls for reasoning over both. Existing models cover the task in part. Large language models (LLMs) reason in text but must read a series as digit tokens, which crowd the context window. Time series foundation models (TSFMs) take a series in its native form and forecast unseen series zero-shot, but read no text. Time series language models put a series into an LLM, yet still produce the forecast on the LLM side. The pretrained TSFM&rsquo;s zero-shot forecasting ability is thereby left unused. We present TimeOmni-o1, which connects a pretrained TSFM and an LLM in a loop. Series features extracted by the TSFM are passed to the LLM, and the LLM&rsquo;s reasoning is fed back to steer the TSFM&rsquo;s forecast. One model thereby reasons in text over series and context, and forecasts through the TSFM. We further construct MMTR, a multimodal time series reasoning dataset with annotated reasoning traces: 500k+ samples across 12 understanding disciplines and five event-conditioned forecasting domains. On MMTR, TimeOmni-o1 outperforms external baselines and either of its backbones alone on most disciplines and domains. Training on MMTR strengthens reasoning: the generated traces agree with the annotated ones, and the model surpasses its no-reasoning counterpart where the question requires multi-step counting or fine-grained anomaly discrimination.</p>
+</section>
+
+<section id="model" class="sec">
+  <h2>Model</h2>
+  <h3 id="model-overview">Overview</h3>
+  <figure class="fig" id="fig-overview">
+    <img src="assets/img/overview.png" alt="Overview of TimeOmni-o1: the TSFM and the LLM coupled in a loop, an understanding example and a forecasting example" width="1872" height="681">
+    <figcaption><span class="lbl">Figure 1.</span> Overview of TimeOmni-o1. Left: a pretrained TSFM and an LLM are coupled in a loop; series enter and forecasts leave through the TSFM, and text enters and leaves through the LLM. Middle: for understanding tasks, the LLM reasons over the TSFM-encoded series and the context text, and generates the reasoning trace and the answer. Right: for forecasting tasks, the series enters through the TSFM (1, 2) and the LLM generates the reasoning trace (3). The LLM&rsquo;s hidden states over the whole sequence, holding the series, the context and the trace, are then fed back into the TSFM (4), which generates the quantile forecast (5).</figcaption>
+  </figure>
+  <p>TimeOmni-o1 performs both types of multimodal time series reasoning with one architecture. The input is a multivariate series $\mathbf{X}\in\mathbb{R}^{C\times L}$ paired with a textual context $e$: a question, background, or an event description. For understanding tasks, the model generates a reasoning trace followed by a textual answer. For forecasting tasks, the trace instead ends in a <em>forecast instruction</em>, and the output is a quantile forecast over the requested horizon. The instruction states the window over which the event is expected to act, and the direction, shape and relative magnitude of its effect inside it.</p>
+<p>Both task types share one workflow in which each backbone does what it was pretrained for: the LLM writes all text, and the TSFM encodes the series and produces the forecast (<a href="#fig-overview">Figure 1</a>). The two are coupled through two pathways. On the series-to-LLM pathway (<a href="#series-to-llm">Series to LLM</a>), the TSFM encoder reads the series and its patch representations are compressed into a bounded soft prompt, which the LLM reads beside the context to generate the trace and the answer or instruction. On the LLM-to-TSFM pathway (<a href="#llm-to-tsfm">LLM to TSFM</a>), used for forecasting, the LLM&rsquo;s hidden states are compressed and injected into every TSFM encoder block through gated cross-attention, and the TSFM forecasts under them.</p>
+  <figure class="fig" id="fig-arch">
+    <img src="assets/img/architecture.png" alt="The two pathways of TimeOmni-o1: series to LLM on top, LLM to TSFM at the bottom" width="2595" height="1404" loading="lazy">
+    <figcaption><span class="lbl">Figure 2.</span> The two pathways of TimeOmni-o1. Top, series to LLM: the TSFM encoder maps the series into patch representations (1). A planning rule fixes the soft-prompt budget from the series length (2). The sliding-window Q-Former compresses the patches into local and global tokens; with the statistics token they form the soft prompt (3), which the LLM reads beside the context text. Bottom, LLM to TSFM: the LLM generates the reasoning trace and the forecast instruction (1). The feedback Q-Former compresses the LLM hidden states into $M$ tokens $\mathbf{Z}$ (2). Gated cross-attention injects $\mathbf{Z}$ into every TSFM encoder block (3), and the TSFM generates the quantile forecast.</figcaption>
+  </figure>
+  <h3 id="series-to-llm">Series to LLM</h3>
+  <p>The series-to-LLM pathway turns a series of any length into a soft prompt of bounded size (<a href="#fig-arch">Figure 2</a>, top). The TSFM encoder maps each channel into $P$ patch representations, and the channels of one sample interact through the encoder&rsquo;s group attention. A sliding-window Q-Former then compresses the $P\times C$ patch vectors. It cuts the series into windows and summarizes each window into $k$ tokens with learned queries shared across windows. The window count follows a token budget planned from the series length: $Q$ grows only logarithmically with the input and saturates at a cap, $Q=\min\bigl(Q_{\min}+b\log_2(P\times C),\,Q_{\max}\bigr)$. A longer series is therefore absorbed by wider windows rather than by more tokens (the paper&rsquo;s appendix). These local tokens alone leave two gaps. First, the windows do not see one another: the Q-Former summarizes each in isolation, and the encoder does not attend across its own chunks. Global structure would thus be left for the LLM to reassemble. A few global queries therefore attend to all $P\times C$ patches in one cross-attention, and their outputs are placed before the local tokens. Second, each channel is normalized by one $(\mu,\sigma)$ pair taken over its whole history, so a small fluctuation and the same shape at ten times the amplitude encode identically. A statistics token restores the magnitude: the channel&rsquo;s $(\mu,\sigma)$, range and peak amplitude are projected into the LLM input space and placed ahead of the soft prompt.</p>
+  <h3 id="llm-to-tsfm">LLM to TSFM</h3>
+  <p>The LLM-to-TSFM pathway returns what the LLM has concluded to the forecaster (<a href="#fig-arch">Figure 2</a>, bottom). An understanding question needs no such return: its answer is text, and the LLM writes it. A forecast is not text. It is produced by the TSFM, whose pretrained forecasting ability is why the TSFM is in the model at all, so the LLM&rsquo;s conclusion has to travel back to it. For forecasting, the reasoning trace therefore ends in the forecast instruction defined in <a href="#model-overview">the Overview above</a>. A feedback Q-Former carries the text side back. Its $M$ learned queries cross-attend to the LLM&rsquo;s last-layer hidden states over the soft prompt, the context and the trace, and return $\mathbf{Z}\in\mathbb{R}^{M\times d}$, $d$ being the TSFM&rsquo;s width. $\mathbf{Z}$ is injected into every encoder block of the TSFM through gated cross-attention,
+$$
+\mathbf{h}_\ell \leftarrow \mathbf{h}_\ell + \tanh(g_\ell)\cdot \mathrm{CrossAttn}_\ell\bigl(\mathbf{h}_\ell,\ \mathbf{Z}\bigr),
+$$
+where $\mathbf{h}_\ell$ denotes the patch representations inside block $\ell$ and $g_\ell$ is a scalar gate. The reasoning thus shapes the forecast from inside the forecaster rather than post-editing its outputs, and the quantiles are still generated by the TSFM.</p>
+</section>
+
+<section id="dataset" class="sec">
+  <h2>Dataset: MMTR</h2>
+  <figure class="tblwrap" id="tab-dataset-cmp"><figcaption><span class="lbl">Table 1.</span> MMTR against related multimodal time series corpora; the full comparison, including all eleven source corpora of MMTR, is the full comparison table in the paper&rsquo;s appendix. <strong>Und.</strong>&nbsp;/&nbsp;<strong>Fc.</strong>: the corpus poses understanding / forecasting tasks. <strong>Trace</strong>: every sample carries an annotated reasoning trace; <em>partial</em>: only a subset does (2.3k of TSR-Suite&rsquo;s 23.6k samples). <strong>Domains</strong>: as counted by the source; MMTR has 12 understanding disciplines and five forecasting domains. <strong>Series</strong>: real, synthetic, or both. <strong>Train split</strong>: a training split is released, rather than an evaluation-only benchmark. <strong>Samples</strong>: total instances as reported by the source.</figcaption><div class="scroll"><table class="tbl">
+<thead>
+<tr><th>Dataset</th><th class="ctr">Und.</th><th class="ctr">Fc.</th><th class="ctr">Trace</th><th class="ctr">Domains</th><th class="ctr">Series</th><th class="ctr">Train split</th><th class="ctr">Samples</th></tr>
+</thead>
+<tbody>
+<tr><td>OpenTSLM CoT sets</td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#215;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="num">1</td><td class="ctr">real</td><td class="num"><span class="ck">&#10003;</span></td><td class="num">326k</td></tr>
+<tr><td>RATS40K</td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#215;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="num">10</td><td class="ctr">real</td><td class="num"><span class="ck">&#10003;</span></td><td class="num">39.6k</td></tr>
+<tr><td>ST-Bench</td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="num">10</td><td class="ctr">synthetic</td><td class="num"><span class="ck">&#10003;</span></td><td class="num">28.2k</td></tr>
+<tr><td>TSR-Suite</td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="ctr">partial</td><td class="num">10</td><td class="ctr">real</td><td class="num"><span class="ck">&#10003;</span></td><td class="num">23.6k</td></tr>
+<tr><td>TSQA</td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#215;</span></td><td class="num">12</td><td class="ctr">both</td><td class="num"><span class="ck">&#10003;</span></td><td class="num">193k</td></tr>
+<tr><td>SciTS</td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#215;</span></td><td class="num">12</td><td class="ctr">both</td><td class="num"><span class="ck">&#10003;</span></td><td class="num">52.1k</td></tr>
+<tr><td>Time-MMD</td><td class="num"><span class="ck">&#215;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#215;</span></td><td class="num">9</td><td class="ctr">real</td><td class="num"><span class="ck">&#10003;</span></td><td class="num">17.1k</td></tr>
+<tr><td>CiK</td><td class="num"><span class="ck">&#215;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#215;</span></td><td class="num">7</td><td class="ctr">both</td><td class="num"><span class="ck">&#215;</span></td><td class="num">355</td></tr>
+<tr class="sep ours"><td><strong>MMTR (Ours)</strong></td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="num"><span class="ck">&#10003;</span></td><td class="ctr">12 + 5</td><td class="ctr">both</td><td class="num"><span class="ck">&#10003;</span></td><td class="num">574k</td></tr>
+</tbody></table></div></figure>
+  <p>MMTR supervises multimodal time series reasoning with an annotated reasoning trace, across both understanding and forecasting. It holds 502,586 training and 71,067 test samples. Among the corpora in <a href="#tab-dataset-cmp">Table 1</a>, only MMTR and the synthetic ST-Bench carry a reasoning trace on both task types; MMTR does so largely on real series, at twenty times the scale. The understanding task accounts for 497,956 training and 70,630 test samples over 12 disciplines; the event-conditioned forecasting task for 4,630 training and 437 test samples over five domains. Trace quality is verified by human review: two independent reviewers rate a stratified sample of 1,000 traces against the series and the ground truth. A trace fails only if it contradicts them or fabricates a fact. On average, 93.3% of the understanding traces and 97.7% of the forecasting traces pass, and the reviewers agree on the verdict for 96.6% of the traces. Composition, provenance and the annotation protocol are given in <a href="#dataset-composition">the composition and annotation section below</a>; the review protocol and the per-discipline and per-domain pass rates in the paper&rsquo;s appendix.</p>
+  <h3 id="dataset-understanding">Understanding task</h3>
+  <p>The understanding task is built from six public reasoning-annotated corpora: the OpenTSLM chain-of-thought sets  <span class="cite">(Langer et al., 2026)</span>, ST-Bench  <span class="cite">(Ni et al., 2026)</span>, Time-RA  <span class="cite">(Yang et al., 2026)</span>, VeriTime  <span class="cite">(Zhou et al., 2026)</span>, TelecomTS  <span class="cite">(Feng et al., 2026)</span> and HiTSR  <span class="cite">(Ding et al., 2026)</span>. They are unified into one schema of series, question, reasoning trace and answer. Answer formats cover open question answering, multiple choice, classification, anomaly detection and diagnosis, and multi-step numerical calculation; series are multivariate where the source provides it. Each sample is assigned to one of 12 disciplines: physiology, telecommunications, urbanism, information technology, neuroscience, earth science, meteorology, economics, bioacoustics, manufacturing, energy, and synthetic data.</p>
+  <h3 id="dataset-forecasting">Forecasting task</h3>
+  <p>The forecasting task is event-conditioned. Each sample pairs a history series with a background and the description of an established event (a heatwave alert, a holiday, a market event), and asks for a forecast over a horizon. Series and their dated texts come from five public multimodal forecasting sources: CGTSF  <span class="cite">(Wang et al., 2025)</span>, Fidel-TS  <span class="cite">(Xu et al., 2025)</span>, MTBench  <span class="cite">(Chen et al., 2025)</span>, From News to Forecast  <span class="cite">(Wang et al., 2024)</span> and Time-MMD  <span class="cite">(Liu et al., 2024)</span>. They give ten datasets in five domains: solar power, grid load, traffic flow, finance and climate. These sources carry no reasoning annotations, so every sample is annotated with an event description condensed from the source text, a reasoning chain, and a forecast instruction. The annotator sees the future but may not cite it: the chain must follow from the history and the event alone, and the instruction must match the realized future. The window over which the instruction expects the event to act is the event region of interest (ROI); each sample records it as a field, used for ROI-weighted training and separate ROI evaluation.</p>
+  <h3 id="dataset-composition">Composition, provenance and annotation</h3>
+  <p><a href="#tab-und-composition">Table 2</a> lists the 12 disciplines with their sample counts and contributing subtasks. Corpora confined to one field are mapped as a whole. In the two corpora that span many fields, each sample is assigned from the data source named in its prompt or subset. Two assignments are judgment calls. ST-Bench prompts contain only node values and graph structure, and the domain appears only in the answer options. The whole corpus is therefore assigned to urbanism, the field of its sensor networks. The synthetic category is not a residual class. HiTSR carries no source field; its L2 items match shapes to numeric descriptions, and each L3 option describes a scenario from a different field. A single item therefore has no real-world domain. Seventeen test and 82 training VeriTime samples name no data source and are left unassigned; they are scored but enter no discipline column. The training and test distributions are not identical. Telecommunications is 31% of training but 11% of test; activity recognition has 8.3 times more training than test samples; bioacoustics has fewer training (127) than test (200) samples.</p>
+  <figure class="tblwrap" id="tab-und-composition"><figcaption><span class="lbl">Table 2.</span> Composition of the understanding task of MMTR by discipline. Family: N = natural system, E = engineered or socio-technical system, S = synthetic control. Counts are samples; test-set sizes of the contributing subtasks are given in parentheses.</figcaption><div class="scroll"><table class="tbl">
+<thead>
+<tr><th>Discipline</th><th class="ctr">Family</th><th class="ctr">Train</th><th class="ctr">Test</th><th class="ctr">Source subtasks (test samples)</th></tr>
+</thead>
+<tbody>
+<tr><td>Physiology</td><td class="ctr">N</td><td class="ctr">241,804</td><td class="ctr">50,792</td><td class="ctr">OpenTSLM ECG-QA (41,093), HAR (8,199); Time-RA (1,133); VeriTime (367)</td></tr>
+<tr><td>Telecommunications</td><td class="ctr">E</td><td class="ctr">154,185</td><td class="ctr">8,000</td><td class="ctr">TelecomTS network (6,400), anomalies (1,600)</td></tr>
+<tr><td>Synthetic</td><td class="ctr">S</td><td class="ctr">49,324</td><td class="ctr">5,488</td><td class="ctr">HiTSR L2 (5,071), L3 (401); Time-RA artificial (16)</td></tr>
+<tr><td>Urbanism</td><td class="ctr">E</td><td class="ctr">23,587</td><td class="ctr">3,029</td><td class="ctr">ST-Bench T1&ndash;T3 (2,993); VeriTime (23); Time-RA traffic (13)</td></tr>
+<tr><td>Information technology</td><td class="ctr">E</td><td class="ctr">11,894</td><td class="num">937</td><td class="ctr">Time-RA (798); VeriTime (139)</td></tr>
+<tr><td>Neuroscience</td><td class="ctr">N</td><td class="ctr">7,428</td><td class="num">928</td><td class="ctr">OpenTSLM Sleep (928)</td></tr>
+<tr><td>Earth science</td><td class="ctr">N</td><td class="ctr">4,895</td><td class="num">492</td><td class="ctr">Time-RA (453); VeriTime (39)</td></tr>
+<tr><td>Manufacturing</td><td class="ctr">E</td><td class="ctr">2,034</td><td class="num">167</td><td class="ctr">Time-RA machine systems (146); VeriTime (21)</td></tr>
+<tr><td>Economics</td><td class="ctr">E</td><td class="ctr">1,405</td><td class="num">201</td><td class="ctr">VeriTime (154); Time-RA (47)</td></tr>
+<tr><td>Meteorology</td><td class="ctr">N</td><td class="num">993</td><td class="num">219</td><td class="ctr">Time-RA ocean and atmosphere (184); VeriTime weather (35)</td></tr>
+<tr><td>Energy</td><td class="ctr">E</td><td class="num">198</td><td class="num">160</td><td class="ctr">VeriTime CTU (144), scenarios (16)</td></tr>
+<tr><td>Bioacoustics</td><td class="ctr">N</td><td class="num">127</td><td class="num">200</td><td class="ctr">VeriTime RCW (200)</td></tr>
+<tr><td>Unassigned</td><td class="num">&ndash;</td><td class="num">82</td><td class="num">17</td><td class="ctr">VeriTime samples naming no source</td></tr>
+<tr class="sep"><td>Total</td><td class="ctr"></td><td class="ctr">497,956</td><td class="ctr">70,630</td><td class="ctr"></td></tr>
+</tbody></table></div></figure>
+  <details class="prose"><summary>Dropped and cleaned material during unification</summary><p>Three kinds of material are excluded or cleaned during unification. First, subsets without reasoning annotations or without reasoning demand are dropped. From OpenTSLM this removes TSQA, its only subset without chain-of-thought annotation. From ST-Bench it removes the 194,212 alignment QA pairs and the image variants; its T4 subset is forecasting rather than understanding and serves only as the external benchmark of the paper&rsquo;s out-of-domain section. From TelecomTS it removes the 2.05M plain QA items, whose schema carries no reasoning field; of its 18 KPIs, the 16 numeric channels enter the model. From HiTSR it removes the L1 level, a deterministic value lookup; from Time-RA, the image modality. VeriTime enters in full. Second, two sources print the ground-truth label inside the prompt: the activity-recognition and sleep-staging prompts end by instructing the model to close with &ldquo;Answer:&rdquo; followed by the sample&rsquo;s true label. The label is replaced by the generic instruction under an anchored pattern that fails loudly when it does not match, and the same rule strips the trailing answer line from each trace before the trace becomes supervision. TelecomTS inputs are built from a field whitelist, so its label fields never reach the prompt. Third, 3,790 of the 6,034 official univariate Time-RA test samples (62.8%) carry an anomaly label of a multivariate-only type, such as joint-space or covariance-structure anomalies, which a single-channel series cannot express. They are removed by rule, leaving 2,244 univariate and 546 multivariate test samples; no training sample is affected.</p></details>
+  <p><a href="#tab-fc-provenance">Table 3</a> lists the ten datasets, their source suites, their sampling resolutions, their window lengths and their sample counts. Because MSPG and PTF are training sources, CGTSF is not used as an external benchmark.</p>
+  <figure class="tblwrap" id="tab-fc-provenance"><figcaption><span class="lbl">Table 3.</span> Provenance of the forecasting task of MMTR. Series are taken from ten datasets of five public multimodal forecasting suites; the background, event description, reasoning trace, forecast instruction and ROI are annotated in this work. Train and Test: samples per dataset. History and Horizon: window lengths in steps; the equities windows vary with the trading session and are reported as medians. Source suites as cited in <a href="#dataset-forecasting">the Forecasting Task section</a>.</figcaption><div class="scroll"><table class="tbl">
+<thead>
+<tr><th>Source suite</th><th class="ctr">Dataset</th><th class="ctr">Domain</th><th class="ctr">Resolution</th><th class="ctr">History</th><th class="ctr">Horizon</th><th class="ctr">Train</th><th class="ctr">Test</th></tr>
+</thead>
+<tbody>
+<tr><td>CGTSF</td><td class="ctr">MSPG, Melbourne PV</td><td class="ctr">Solar</td><td class="ctr">15 min</td><td class="num">480</td><td class="num">96</td><td class="num">613</td><td class="num">59</td></tr>
+<tr><td>CGTSF</td><td class="ctr">PTF, Paris traffic</td><td class="ctr">Traffic</td><td class="ctr">hourly</td><td class="num">120</td><td class="num">24</td><td class="num">532</td><td class="num">47</td></tr>
+<tr><td>Fidel-TS</td><td class="ctr">50Hertz renewable</td><td class="ctr">Solar</td><td class="ctr">15 min</td><td class="num">288</td><td class="num">96</td><td class="num">565</td><td class="num">56</td></tr>
+<tr><td>Fidel-TS</td><td class="ctr">Calgary PV</td><td class="ctr">Solar</td><td class="ctr">hourly</td><td class="num">96</td><td class="num">24</td><td class="num">650</td><td class="num">48</td></tr>
+<tr><td>Fidel-TS</td><td class="ctr">California ISO</td><td class="ctr">Load</td><td class="ctr">5 min</td><td class="num">576</td><td class="num">288</td><td class="num">464</td><td class="num">46</td></tr>
+<tr><td>MTBench</td><td class="ctr">US equities</td><td class="ctr">Finance</td><td class="ctr">intraday</td><td class="num">390</td><td class="num">78</td><td class="num">405</td><td class="num">41</td></tr>
+<tr><td>From News to Forecast</td><td class="ctr">Australian load</td><td class="ctr">Load</td><td class="ctr">30 min</td><td class="num">48</td><td class="num">48</td><td class="num">736</td><td class="num">75</td></tr>
+<tr><td>From News to Forecast</td><td class="ctr">California traffic</td><td class="ctr">Traffic</td><td class="ctr">hourly</td><td class="num">120</td><td class="num">48</td><td class="num">365</td><td class="num">35</td></tr>
+<tr><td>From News to Forecast</td><td class="ctr">Bitcoin</td><td class="ctr">Finance</td><td class="ctr">daily</td><td class="num">60</td><td class="num">14</td><td class="num">173</td><td class="num">17</td></tr>
+<tr><td>Time-MMD</td><td class="ctr">US drought</td><td class="ctr">Climate</td><td class="ctr">weekly</td><td class="num">36</td><td class="num">12</td><td class="num">127</td><td class="num">13</td></tr>
+<tr class="sep"><td>Total</td><td class="ctr"></td><td class="ctr"></td><td class="ctr"></td><td class="ctr"></td><td class="ctr"></td><td class="ctr">4,630</td><td class="num">437</td></tr>
+</tbody></table></div></figure>
+  <h4>Annotation protocol of the forecasting task</h4>
+  <p>The 5,067 collected samples (4,630 training and 437 test) are annotated by an LLM annotator, GPT-5.4. For each sample the annotator receives a hand-written dataset background, the sample&rsquo;s accompanying text, the window metadata, a rendering of the series, and the future window as a timestamped value table. The accompanying text is the source suite&rsquo;s own aligned text rather than retrieved material: weather forecasts and reports for the solar and load sets, aligned news for the finance and traffic sets, and drought reports for the climate set. Text dated inside the forecast horizon is marked and must be ignored. The annotator returns four fields: the event description, condensed from the accompanying text with causal phrasing banned, the reasoning trace, the forecast instruction, and the ROI. It works under three constraints: the ROI lies inside the horizon, the trace uses the history and the event only, and no future value is cited. A schema check enforces the ROI bounds, and a rule-based screen flags any quoted future value. The magnitude the instruction states is calibrated per source dataset: the peak of the sample&rsquo;s future window is read relative to the 90th percentile of future peaks over all samples of the same dataset. Five levels are distinguished, near zero, well below, moderately below, close to, and above the typical peak, with boundaries at peak ratios of 0.10, 0.40, 0.70, and 1.30.</p>
+</section>
+
+<section id="samples" class="sec">
+  <h2>Samples from MMTR</h2>
+  <p>One sample per discipline of the understanding task (U01 to U12) and one per domain of the forecasting task (F01 to F05). All 17 were rated sound in the human review, and the understanding samples were further required to cite concrete evidence from the series. Questions and traces are abridged: option lists, category inventories and formatting instructions are shortened, while the cited evidence and the conclusions are kept as annotated. Each understanding card shows the series, the question, the annotated reasoning trace and the answer. Each forecasting card shows the history and the future ground truth with the ROI shaded, then the dataset background, the event description, the reasoning trace and the forecast instruction. Markers in the figures point at the values the trace cites.</p>
+  <div class="chips"><a class="chip" href="#U01"><b>U01</b> Physiology</a><a class="chip" href="#U02"><b>U02</b> Telecommunications</a><a class="chip" href="#U03"><b>U03</b> Synthetic</a><a class="chip" href="#U04"><b>U04</b> Urbanism</a><a class="chip" href="#U05"><b>U05</b> Information technology</a><a class="chip" href="#U06"><b>U06</b> Neuroscience</a><a class="chip" href="#U07"><b>U07</b> Earth science</a><a class="chip" href="#U08"><b>U08</b> Meteorology</a><a class="chip" href="#U09"><b>U09</b> Economics</a><a class="chip" href="#U10"><b>U10</b> Bioacoustics</a><a class="chip" href="#U11"><b>U11</b> Manufacturing</a><a class="chip" href="#U12"><b>U12</b> Energy</a><a class="chip" href="#F01"><b>F01</b> Solar</a><a class="chip" href="#F02"><b>F02</b> Load</a><a class="chip" href="#F03"><b>F03</b> Traffic</a><a class="chip" href="#F04"><b>F04</b> Finance</a><a class="chip" href="#F05"><b>F05</b> Climate</a></div>
+  <h3 id="samples-und">Understanding task</h3>
+  <article class="card" id="U01"><header><span class="tag">U01</span><h4>Physiology</h4><span class="src">OpenTSLM ECG-QA</span></header><p class="desc"><em>Open-ended diagnostic question answering; 12-lead ECG, 10 s at 500 Hz (5,000 points per lead).</em></p><img src="assets/samples/U01.png" alt="Series of sample U01" width="1980" height="720" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">Clinical context: 72-year-old female; 12-lead clinical ECG (baseline drift, static/burst noise and electrode artefacts noted; extra beats; pacemaker present). Which diagnostic symptom does this ECG show: myocardial infarction in inferoposterolateral leads, or myocardial infarction in anteroseptal leads (including uncertain symptoms)?</dd><dt>Reasoning trace</dt><dd class="">Baseline drift and noise may obscure details and the pacemaker can affect some features, but the focus is on infarction patterns. The notable changes appear in the inferoposterolateral leads (II, III, aVF and possibly V5-V6), which show ST-segment elevation or other ischaemic changes; an anteroseptal infarction would instead involve V1-V4. Together with the clinical context this supports an inferoposterolateral myocardial infarction.</dd><dt>Answer</dt><dd class="final">myocardial infarction in inferoposterolateral leads</dd></dl></article><article class="card" id="U02"><header><span class="tag">U02</span><h4>Telecommunications</h4><span class="src">TelecomTS</span></header><p class="desc"><em>Network-level activity recognition; 16 KPI channels over 128 steps.</em></p><img src="assets/samples/U02.png" alt="Series of sample U02" width="1980" height="936" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">A 5G monitoring window with 16 KPI channels. Observation summary (abridged): RSRP stable but weak ($-$103 to $-$102 dB); uplink SNR 17.8-20.7 dB; UL_MCS 15-18 while DL_MCS is constant at 7; DL_BLER negligible, UL_BLER 0.044-0.17; downlink PRBs about 63 with a sharp drop to single digits late in the trace, uplink PRB use minimal; traffic uplink-dominant and bursty (TX_Bytes 19 k-449 k with a sharp dip, RX_Bytes 0.8 k-9 k); the estimated uplink buffer is often large (mean 296 KB); 100% TCP in both directions. Which type of activity occurred: YouTube viewing, Twitch stream, or file transfer?</dd><dt>Reasoning trace</dt><dd class="">The radio link is stable but weak (RSRP about $-$103 dB) with a consistent uplink SNR (about 19.2 dB); uplink MCS varies slightly while downlink MCS stays constant. Traffic is highly uplink-bursty, with TX_Bytes dropping sharply, and the estimated uplink buffer stays high, indicating queued data. This pattern is consistent with a file transfer.</dd><dt>Answer</dt><dd class="final">File download was the activity.</dd></dl></article><article class="card" id="U03"><header><span class="tag">U03</span><h4>Synthetic</h4><span class="src">HiTSR, level 3</span></header><p class="desc"><em>Multiple choice matching pattern, values and semantics; univariate, 192 points.</em></p><img src="assets/samples/U03.png" alt="Series of sample U03" width="1980" height="504" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">Considering the overall pattern, the precise values and the semantic logic, which scenario best fits the series? A. Half-hourly electricity consumption (kWh) of London households over four days (192 points): strong daily seasonality with two peaks per day, night-time lows such as 0.023 at indices 22 and 24, and a high of 0.796 at index 13. B. Half-hourly air-quality index in central London over four days: generally stable with minor fluctuations, spikes to 0.796 at index 13 and 0.68 at index 29, values below 0.1 at indices 22 and 37. C. Half-hourly CPU utilisation (%) of a cloud server over four days: high volatility, 79.6% at index 13, 68.0% at index 29, lows of 2.3% (index 22) and 3.7% (index 37). D. Daily stock-price changes (GBP) of an energy company over 192 days: long-term upward trend, a rise from 0.209 at index 0 to 0.796 at index 13, then a sharp drop to 0.023 at index 22.</dd><dt>Reasoning trace</dt><dd class="">A: the pattern shows strong daily seasonality with two peaks and night-time troughs; the values 0.796 at index 13 and 0.023 at indices 22 and 24 are accurate; half-hourly household kWh over four days is consistent with residential demand cycles. B: the series is highly volatile, contradicting &lsquo;minor fluctuations&rsquo;; the numbers are correct, but a central-London AQI does not repeatedly fall below 0.1. C: the volatility and cyclic drops match and the numbers are accurate, but a production server would not cyclically fall to 2.3% utilisation. D: the oscillation repeats every 48 points, inconsistent with daily sampling, and a daily stock price cannot move from 0.796 to 0.023 within nine steps.</dd><dt>Answer</dt><dd class="final">A</dd></dl></article><article class="card" id="U04"><header><span class="tag">U04</span><h4>Urbanism</h4><span class="src">ST-Bench</span></header><p class="desc"><em>Spatio-temporal graph reasoning, entity identification; 5 graph nodes over 48 steps with edges 0$\to$2, 1$\to$2, 2$\to$3, 3$\to$4, 4$\to$2.</em></p><img src="assets/samples/U04.png" alt="Series of sample U04" width="1980" height="864" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">Five nodes each carry a length-48 series; graph edges: Node 0$\to$2, 1$\to$2, 2$\to$3, 3$\to$4, 4$\to$2. Which (name, description) pair should Node 3 correspond to? A. Central Square, main city square intersection; B. Highway Exit, major highway exit point; C. Ring Road, ring road junction; D. Bypass Junction, peripheral traffic bypass point.</dd><dt>Reasoning trace</dt><dd class="">Graph: Node 2 is a convergence point fed by Nodes 0 and 1, then flows to Node 3 $\to$ Node 4 $\to$ back to Node 2 (a loop). Series: Node 0 surges from about 76 to about 874 around indices 15-33; Node 1 is zero for indices 1-13 and then holds 60-170; Node 2 is erratic with extreme spikes (1250, 731, 593); Node 3 has a stable 150-200 baseline, extreme spikes (1184, 1250) near indices 17-23, then stabilises higher (180-265); Node 4 mirrors Node 3 with spikes (1242, 1178) followed by very low values (28, 66, 96). Node 3 receives the converged flow, carries the major surge, and sits on the circular 2$\to$3$\to$4$\to$2 structure, so it is a junction on a ring road rather than the central convergence point itself.</dd><dt>Answer</dt><dd class="final">C (Ring Road, ring road junction)</dd></dl></article><article class="card" id="U05"><header><span class="tag">U05</span><h4>Information technology</h4><span class="src">VeriTime</span></header><p class="desc"><em>Rule-based anomaly detection; univariate, 256 points (Kubernetes cluster autoscaler metric).</em></p><img src="assets/samples/U05.png" alt="Series of sample U05" width="1980" height="504" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">Cluster Autoscaler Metrics collected from a Kubernetes cluster, length 256. Given that a sudden drop of more than 0.3 is considered anomalous, should the series be considered anomalous near point 114?</dd><dt>Reasoning trace</dt><dd class="">Step 1: this is anomaly detection with an explicit rule (a drop larger than 0.3). Step 2: the relevant patterns are the drop magnitude, the 0.3 threshold and the location near point 114. Step 3: the value at index 114 is 0.6952 and the next value (index 115) is 0.3194, a drop of 0.3758 that exceeds the threshold; the drop is abrupt relative to the cyclical pattern (peaks about 0.78, troughs about 0.64). Steps 4-5: the gradual cyclical rises and falls do not explain such an abrupt drop, so the rule is unambiguously violated. Step 6: a drop of 0.3758 directly adjacent to point 114 qualifies as an anomaly.</dd><dt>Answer</dt><dd class="final">Yes</dd></dl></article><article class="card" id="U06"><header><span class="tag">U06</span><h4>Neuroscience</h4><span class="src">OpenTSLM Sleep</span></header><p class="desc"><em>Sleep-stage classification; single-channel EEG, one 30-s epoch (1,500 points).</em></p><img src="assets/samples/U06.png" alt="Series of sample U06" width="1980" height="504" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">A 30-second EEG segment corresponds to one of two sleep stages: Non-REM stage 4 or Wake. Determine the stage from the signal alone, reasoning in a single paragraph and ending with the answer.</dd><dt>Reasoning trace</dt><dd class="">The signal shows relatively slow oscillations with large amplitude variations, indicating synchronised neuronal activity. Such slow-wave activity is the hallmark of deep sleep; a wakeful state would instead show faster, lower-amplitude, desynchronised activity. The segment therefore matches a deep sleep stage rather than wakefulness.</dd><dt>Answer</dt><dd class="final">Non-REM stage 4</dd></dl></article><article class="card" id="U07"><header><span class="tag">U07</span><h4>Earth science</h4><span class="src">Time-RA</span></header><p class="desc"><em>21-way anomaly diagnosis; univariate, 64 points (environmental sensor).</em></p><img src="assets/samples/U07.png" alt="Series of sample U07" width="1980" height="504" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">A univariate series of length 64 collected from an environmental sensor. Analyse the temporal dynamics and name the category that best describes it, choosing from: Amplitude, Change Point, Collinearity Shift, Continuous Segment, Covariance Structure, Distributional Change, Drift, Joint Space, Nonlinear Pattern, Pattern Change, Periodic Change, Point, Principal Component Space, Repeated Value, Sparse, Sudden Flatline, Sudden Spike, Temporal Dependency, Trend Change, Trend Divergence Anomaly, or Normal Sequence.</dd><dt>Reasoning trace</dt><dd class="">The series initially fluctuates within a stable range (about 5.5-6.3). Starting at index 16 the values drop to a lower range (about 3.0-3.4), an abrupt shift in both mean and variance that marks a change point. There is some later recovery and fluctuation, but the initial drop is a clear change in statistical behaviour.</dd><dt>Answer</dt><dd class="final">Change Point Anomaly</dd></dl></article><article class="card" id="U08"><header><span class="tag">U08</span><h4>Meteorology</h4><span class="src">Time-RA</span></header><p class="desc"><em>Multivariate anomaly diagnosis, 7-way; 3 variables over 32 steps (Tropical Atmosphere Ocean buoy array).</em></p><img src="assets/samples/U08.png" alt="Series of sample U08" width="1980" height="648" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">A multivariate series with 3 variables (col_0, col_1, col_2), each of length 32, collected from ocean / tropical-atmosphere buoy observations. Which category best describes it: Collinearity Shift, Covariance Structure, Joint Space, Principal Component Space, Temporal Dependency, or Trend Divergence Anomaly, or Normal Sequence?</dd><dt>Reasoning trace</dt><dd class="">col_0 stays near zero with small fluctuations but drops abruptly to $-$1.99 at time step 16. col_1 progresses smoothly but spikes to 487.0 at the same step. col_2 trends gradually downward but jumps to 26.2 at step 16. Each variable is individually anomalous at step 16, and their joint configuration there is inconsistent with the expected multivariate relationships, indicating a system-level disturbance.</dd><dt>Answer</dt><dd class="final">Joint Space Anomaly</dd></dl></article><article class="card" id="U09"><header><span class="tag">U09</span><h4>Economics</h4><span class="src">VeriTime</span></header><p class="desc"><em>Multi-step numerical calculation, counting events; univariate, 256 daily points.</em></p><img src="assets/samples/U09.png" alt="Series of sample U09" width="1980" height="504" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">Daily Customer Engagement (Marketing &amp; Sales), 256 points starting 1 October 2024. The company ran a series of marketing campaigns; during the period engagement showed a series of rapid spikes each followed by a quick decline. How many such spike-and-decline events occurred, and what could have caused them?</dd><dt>Reasoning trace</dt><dd class="">Step 1: count distinct &lsquo;rapid spike followed by quick decline&rsquo; events. Step 2: a spike must clearly exceed the baseline (about $-$0.47), consecutive spike days form one event, and the decline must return to baseline within 1-2 days. Step 3: spike 1 on days 85-86 (4.71, 4.71, then $-$0.48); spike 2 on days 88-89 (6.13, 6.14, then $-$0.47); spike 3 on days 91-92 (10.82, 4.30, then $-$0.48); spike 4 on days 94-95 (5.90, 2.71, then $-$0.47). Step 4: four events. Step 5: no overlapping events; the later negative excursions (e.g. $-$8.05) are downward anomalies, not engagement spikes. Step 6: four spike-decline events, consistent with campaign launches.</dd><dt>Answer</dt><dd class="final">4</dd></dl></article><article class="card" id="U10"><header><span class="tag">U10</span><h4>Bioacoustics</h4><span class="src">VeriTime</span></header><p class="desc"><em>Binary classification, call present or absent; 2-s hydrophone waveform.</em></p><img src="assets/samples/U10.png" alt="Series of sample U10" width="1980" height="504" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">An audio segment may contain a North Atlantic right whale up-call (about 60-250 Hz, lasting about 1 s); the low-frequency band is often congested with ship noise, drilling or piling. The 2-second waveform is sampled at 2 kHz. Does the segment contain a right whale call? (a) Right Whale Present, (b) No Right Whale.</dd><dt>Reasoning trace</dt><dd class="">Step 1 (task intent): binary classification of whether a 2-s segment contains an up-call defined by its 60-250 Hz band and about 1 s duration. Step 2 (key patterns): frequency range, duration, amplitude consistency (a gradually rising &lsquo;up-call&rsquo; envelope rather than impulsive noise), and anthropogenic interference. Step 3 (analysis): split the waveform into two 1-s segments. Segment 1 (0-1 s) has scattered in-band energy and strong energy below 60 Hz, typical of ship noise. Segment 2 (1-2 s) shows a sustained energy concentration at 90-180 Hz for about 1 s with a gradually rising then decaying amplitude, matching the up-call morphology. Step 4: segment 2 satisfies all criteria. Step 5 (reflection): in-band energy in segment 2 is about 8x that of the adjacent bands; the transient spike near 1.5 s (about $-$1.5) is excluded as non-sustained; segment 1 lacks spectral focus. Step 6: the sustained, band-limited, about-1-s component in the second half identifies an up-call.</dd><dt>Answer</dt><dd class="final">Right Whale Present</dd></dl></article><article class="card" id="U11"><header><span class="tag">U11</span><h4>Manufacturing</h4><span class="src">Time-RA</span></header><p class="desc"><em>21-way anomaly diagnosis; univariate, 64 points (machine system).</em></p><img src="assets/samples/U11.png" alt="Series of sample U11" width="1980" height="504" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">A univariate series of length 64 collected from a machine system. Analyse the temporal dynamics and name the category that best describes it (same 21 categories as above).</dd><dt>Reasoning trace</dt><dd class="">Several irregularities are present: a flatline of zeros at indices 7-10, repeated values (5.0 at indices 15-17, 8.0 at indices 22-23), and fluctuating segments without a consistent trend. The most prominent, however, is the sudden jump to 9.0 at index 21.</dd><dt>Answer</dt><dd class="final">Sudden Spike Anomaly</dd></dl></article><article class="card" id="U12"><header><span class="tag">U12</span><h4>Energy</h4><span class="src">VeriTime</span></header><p class="desc"><em>Appliance-signature classification; univariate, 720 points (2-min sampling over 24 h).</em></p><img src="assets/samples/U12.png" alt="Series of sample U12" width="1980" height="504" loading="lazy"><dl class="fields"><dt>Question</dt><dd class="">Electricity usage of a UK household from the &lsquo;Powering the Nation&rsquo; study, sampled every 2 minutes over 24 hours (720 points). Classify the device usage pattern: (a) Desktop or (b) Laptop.</dd><dt>Reasoning trace</dt><dd class="">Step 1: binary classification of a device energy signature. Step 2: key patterns are the baseline level, the duration of sustained high consumption, and volatility. Step 3: the signal is dominated by a repeated low value ($-$0.3151); positive values (e.g. 3.96, 4.67) are sporadic; the longest active phase (3.96 repeated seven times) lasts only about 14 minutes; transitions such as 1.59 $\to$ $-$0.32 are abrupt. Step 4: a dominant idle baseline, no sustained high load and rapid idle/active transitions match a laptop (battery-driven power management) rather than a desktop&rsquo;s steady higher load. Step 5: the short desktop-like magnitudes (about 4.67) last about 2 minutes, consistent with charging bursts. Step 6: Laptop.</dd><dt>Answer</dt><dd class="final">Laptop</dd></dl></article>
+  <h3 id="samples-fc">Forecasting task</h3>
+  <article class="card" id="F01"><header><span class="tag">F01</span><h4>Solar</h4><span class="src">CGTSF, MSPG Melbourne PV</span></header><p class="desc"><em>Event-conditioned forecasting; 15-min resolution, history 480 and horizon 96 points; ROI [514, 552), 08:30 to 17:45 on 8 March 2021.</em></p><img src="assets/samples/F01.png" alt="Series of sample F01" width="1980" height="576" loading="lazy"><dl class="fields"><dt>Background</dt><dd class="">Power generated by a single photovoltaic site in Melbourne, Australia, every 15 minutes. Output follows a daily bell shape (zero overnight, peak near solar noon) whose height and smoothness are gated by cloud, rain and haze.</dd><dt>Event</dt><dd class="">Monday, 8 March 2021 is the target day. Conditions: moderate drizzle with a gentle breeze, 14-19 C; sunrise 06:11, sunset 18:50.</dd><dt>Reasoning trace</dt><dd class="">The span from 08:30 (row 514) through 17:45 (row 551) covers the active generation window bracketed by sunrise and sunset, during which moderate drizzle governs irradiance. Drizzle-associated dense cloud strongly suppresses output, as seen on the overcast days in the history window that produced low, variable generation rather than a smooth bell. The result is a near-flat, noise-dominated signal at persistently low levels, with a brief afternoon spike where a cloud gap allows a momentarily higher reading, before output returns to low values and falls to zero ahead of sunset.</dd><dt>Forecast instruction</dt><dd class="final">Over index range [514, 552), solar generation remains at a persistently low, erratic level throughout the active generation window, with a brief pronounced peak in the early afternoon forming the single highest reading of the day, before declining back to low irregular values and reaching zero before sunset. Overall, with drizzle reported, the peak stays well below the series&rsquo; typical highs.</dd></dl></article><article class="card" id="F02"><header><span class="tag">F02</span><h4>Load</h4><span class="src">Fidel-TS, California ISO</span></header><p class="desc"><em>Event-conditioned forecasting; 5-min resolution, history 576 and horizon 288 points; ROI [720, 781), 12:00 to 17:00 on 30 August 2019.</em></p><img src="assets/samples/F02.png" alt="Series of sample F02" width="1980" height="576" loading="lazy"><dl class="fields"><dt>Background</dt><dd class="">California ISO grid electricity demand in megawatts, every 5 minutes. The dominant pattern is a daily cycle (overnight trough, daytime rise, evening peak) shaped by temperature-driven heating and cooling load.</dd><dt>Event</dt><dd class="">Forecast for California on 30 August 2019: warm and sunny, 18-23 C, partly sunny with a gentle west breeze; temperatures rise through the day to an afternoon high, then ease slightly in the evening under clear skies.</dd><dt>Reasoning trace</dt><dd class="">The selected span runs from 12:00 to 17:00 on 30 August, matching the afternoon period when temperatures keep rising to their daily high. In the history window demand follows a recurring daytime build toward a late-day high. With warm, sunny conditions persisting into the afternoon, the future window keeps climbing through this interval and finishes at its highest point before the evening easing begins.</dd><dt>Forecast instruction</dt><dd class="final">[720, 781) shows a sustained afternoon climb that ends at a daily peak before turning down just afterward. Overall, under sunny skies, output reaches roughly its usual peak level.</dd></dl></article><article class="card" id="F03"><header><span class="tag">F03</span><h4>Traffic</h4><span class="src">From News to Forecast, California traffic</span></header><p class="desc"><em>Event-conditioned forecasting; Hourly resolution, history 120 and horizon 48 points; ROI [120, 143), 00:00 to 22:00 on 24 November 2016.</em></p><img src="assets/samples/F03.png" alt="Series of sample F03" width="1980" height="576" loading="lazy"><dl class="fields"><dt>Background</dt><dd class="">Hourly traffic volume on a California freeway segment. The dominant patterns are a daily commute cycle (morning and evening peaks) and a weekly cycle (weekdays heavier than weekends); public holidays reshape the weekday pattern.</dd><dt>Event</dt><dd class="">Thanksgiving Day, a US public holiday, falls on 24 November 2016 within the future window. Public holidays shift the weekday commute pattern on this segment toward a weekend-like daily profile. The accompanying regional news headlines (16-17 November) contain no road-specific event.</dd><dt>Reasoning trace</dt><dd class="">The relevant span is 24 November 00:00 through 22:00, Thanksgiving Day inside the future window. In the history window this freeway follows a stronger weekday commute cycle, but the holiday note points to a weekend-like profile instead: a muted build through the morning, a broad high around midday, and a wavering easing later in the day rather than a pronounced commuter pattern.</dd><dt>Forecast instruction</dt><dd class="final">[120, 143) shows a gradual daytime rise to a midday crest followed by an uneven decline through the evening.</dd></dl></article><article class="card" id="F04"><header><span class="tag">F04</span><h4>Finance</h4><span class="src">MTBench, US equities</span></header><p class="desc"><em>Event-conditioned forecasting; Intraday resolution, history 389 and horizon 78 points; ROI [389, 406), 17:19 to 18:36 UTC on 21 July 2022.</em></p><img src="assets/samples/F04.png" alt="Series of sample F04" width="1980" height="576" loading="lazy"><dl class="fields"><dt>Background</dt><dd class="">Intraday price of a single US-listed stock over about one trading week of higher-frequency points, in US dollars. Moves are driven by company news, earnings and broad market sentiment, with no within-window seasonality.</dd><dt>Event</dt><dd class="">On 21 July 2022 at 17:15 UTC, Dorchester Minerals, L.P. (Dallas, Texas) announced its second-quarter 2022 cash distribution, covering the three months ended 30 June 2022 and payable on 11 August 2022 to unitholders of record as of 1 August 2022.</dd><dt>Reasoning trace</dt><dd class="">The selected span runs from 17:19 to 18:36 on 21 July, immediately after the 17:15 announcement of the cash distribution. Movement into the boundary is comparatively calm, and the post-news segment shows a steady advance with small interruptions. The span is kept tight to the initial post-announcement drift and stops before the later pullback begins.</dd><dt>Forecast instruction</dt><dd class="final">In [389, 406), the future window shows a sustained upward run that ends at its highest point before reversing afterward.</dd></dl></article><article class="card" id="F05"><header><span class="tag">F05</span><h4>Climate</h4><span class="src">Time-MMD, US drought</span></header><p class="desc"><em>Event-conditioned forecasting; Weekly resolution, history 36 and horizon 12 points; ROI [36, 41), 27 October to 24 November 2015.</em></p><img src="assets/samples/F05.png" alt="Series of sample F05" width="1980" height="576" loading="lazy"><dl class="fields"><dt>Background</dt><dd class="">Share of US land area under drought (US Drought Monitor categories D0-D4), in percent, reported weekly. It moves slowly and persistently: coverage builds over dry spells and recedes after sustained rain or snow, lagging precipitation by weeks.</dd><dt>Event</dt><dd class="">Monthly precipitation reports for April-September 2015 (all before the horizon): April was the 37th wettest on record, May the wettest month ever recorded for the contiguous US (4.36 in), June the 9th wettest and July the 14th wettest (about 26% of the US in moderate-to-exceptional drought as of 31 July). August turned dry (28th driest, 0.26 in below average) and the national drought footprint expanded; September was the 21st driest (0.40 in below average).</dd><dt>Reasoning trace</dt><dd class="">The ROI spans 27 October (row 36) through 24 November 2015 (row 40), the first month of the future window. Both August and September were below average in precipitation and the drought footprint was already expanding at the close of August, building a soil-moisture deficit that persisted into October. The history window shows coverage at a local low near the horizon after the wet spring and summer, but the August-September drying, with the documented lag of weeks between dry spells and Drought-Monitor changes, drives a rapid expansion through late November.</dd><dt>Forecast instruction</dt><dd class="final">The ROI [36, 41) captures a rapid expansion of drought coverage from late October through late November 2015, ending at its highest point in that span.</dd></dl></article>
+</section>
+
+<section id="cases" class="sec">
+  <h2>Case studies</h2>
+  <p>Six cases show where the reasoning of TimeOmni-o1 decides the answer and where reading the event text decides the forecast, on samples on which the compared models fail. The cases were mined, not hand-picked. On understanding, 29,537 test samples of all subtasks except ECG-QA were screened for those that TimeOmni-o1 answers correctly while the no-reasoning model fails or at most one of nine LLM and external baselines succeeds, which left 965. On forecasting, the 437 test samples were screened for those on which the ROI CRPS of TimeOmni-o1 is below 0.85 times the best of eight competitors, its full-horizon CRPS below 0.9 times, its stated magnitude level matches the annotation and its ROI overlaps the annotated one, which left 39. Three cases per task were then chosen for the clearest mechanism. Baselines are scored leniently throughout: an output counts as correct if the ground-truth phrase appears anywhere in it, a bare option letter counts, and the last number of a numeric answer is taken. A failure is therefore a failure of content, not of format. One boundary holds for every quoted trace. The values a trace cites are approximate, because the LLM reads the series through the soft prompt rather than as digits; what is checked against the raw series is the structural judgment, how many events, how large, and which shape.</p>
+  <h3 id="cases-und">Understanding: where the reasoning decides the answer</h3>
+  <section class="case" id="case-U1"><h4><span class="tag">U1</span> Counting drops (VeriTime, Earth science)</h4><figure class="fig"><img src="assets/cases/U1.png" alt="Case U1" width="1980" height="522" loading="lazy"><figcaption>The three largest one-day drops, which the trace counts.</figcaption></figure><p>The question asks how many significant downward spikes in a 256-day soil-nutrient series could critically impact plant growth; the answer is 3. The trace of TimeOmni-o1 sets a criterion first and then enumerates: it lists three drops of about 7 to 8 units with their days, and it names smaller declines that it rules out. Against the raw series, exactly three one-day drops exceed 5 units (5.2, 5.6 and 8.8) and the fourth largest is 1.3. The days and decimals the trace cites are approximate; the structural judgment is exact. Every other model that produces a number is off by one (<a href="#tab-case-und">Table 4</a>): the no-reasoning model and TimeOmni-1 answer 2, the fine-tuned LLM and TimeOmni answer 1, and Time-MQA sees only the first drop. A single read of the series undercounts; the trace turns counting into checking.</p><details><summary>Question as posed</summary><pre class="quote">You are a time series analysis expert. This is a metric called Soil Nutrient Levels collected from Agriculture with length of 256:. In the context of Soil Nutrient Levels, considering the time series starts from the beginning of a growing season and each point represents a day, how many significant downward spikes in nutrient levels occurred that could critically impact plant growth?</pre></details>
+<details open><summary>Reasoning trace generated by TimeOmni-o1</summary><pre class="trace">Step 1 Analyzing task intent:  
+[Judgment] Significant downward spikes  
+[Description] The problem requires counting "significant downward spikes" in soil nutrient levels that could "critically impact plant growth." Keywords like "significant," "downward spikes," and "critically impact" indicate the need to identify abrupt, severe drops in nutrient levels rather than gradual trends or minor fluctuations.  
+
+Step 2 Selecting task-relevant key patterns:  
+[Judgment] Amplitude deviation; Rate of change; Threshold deviation  
+[Description]  
+- **Amplitude deviation**: Measures the magnitude of a drop relative to preceding values. Critical for identifying "significant" spikes.  
+- **Rate of change**: Detects abrupt declines (spikes) versus gradual decreases.  
+- **Threshold deviation**: Uses domain knowledge (e.g., nutrient levels dropping below agronomic safety thresholds) to define "critical" impact.  
+
+Step 3 Analyzing time series samples using selected key patterns:  
+[Analysis]  
+1. **Day 18–19**: Nutrient levels drop from **35.01** to **27.34** (Δ = **-7.67**). This is the largest single-day decline in the series, far exceeding typical fluctuations (usually ±1–3).  
+2. **Day 64–65**: Drop from **33.72** to **26.98** (Δ = **-6.74**). Second-largest decline, comparable to agronomic critical thresholds.  
+3. **Day 129–130**: Drop from **33.78** to **25.59** (Δ = **-8.19**). New maximum deviation, indicating a severe spike.  
+Other fluctuations (e.g., Day 1–2, Day 90–91) show smaller declines (Δ &lt; 5) or gradual trends, deemed non-critical.  
+
+Step 4 Generating preliminary answers by combining task intent and key patterns:  
+[Judgment] 3  
+[Description] Three spikes (Days 18–19, 64–65, 129–130) exhibit abrupt declines (Δ &gt; 6.7) exceeding typical variability and aligning with agronomic thresholds where nutrient levels fall below critical ranges for plant growth.  
+
+Step 5 Enhancing answers through reflection:  
+[Analysis]  
+- Verified no other spikes met amplitude (&gt;6.7) and rate-of-change criteria.  
+- Confirmed domain relevance: Drops of ~7+ units in soil nutrients (e.g., nitrogen) are known to stress crops.  
+- Ruled out gradual declines (e.g., Day 90–91: 32.97 → 32.83) as non-spikes.  
+
+Step 6 Summarizing the thinking process to output the answer:  
+[Description] The analysis identified three instances where soil nutrient levels dropped abruptly by &gt;6.7 units, exceeding natural variability and agronomic critical thresholds. These spikes (Days 18–19, 64–65, 129–130) align with the definition of "significant downward spikes" capable of critically impacting plant growth.  
+[Judgment] 3</pre><p class="final"><span class="k">Final answer</span> 3</p></details>
+<details><summary>Raw outputs of the compared models</summary><div class="other"><div class="who">None (no reasoning)</div><pre class="quote small">Answer: 2</pre></div><div class="other"><div class="who">TimeOmni-o1&#x27;s LLM (zero-shot)</div><pre class="quote small">Thinking Process:
+
+1.  **Analyze the Request:**
+    *   **Input:** A raw time series of 256 points (though truncated in the prompt, I need to work with the provided data).
+    *   **Context:** Soil Nutrient Levels in Agriculture.
+    *   **Timeframe:** Starts from the beginning of a growing season, each point is a day.
+    *   **Task:** Identify the number of *significant downward spikes* in nutrient levels that could *critically impact plant growth*.
+    *   **Role:** Time series analysis expert.
+
+2.  **Analyze the Data:**
+    *   The data provided is a single channel of 256 points (though the prompt says "1 channel, 256 points per channel" and then lists numbers, followed by "... (truncate […]</pre></div><div class="other"><div class="who">TimeOmni-o1&#x27;s LLM (fine-tuned)</div><pre class="quote small">Step 1 Analyzing task intent:  
+[Judgment] Significant downward spikes.  
+[Description] The problem requires identifying "significant downward spikes" in soil nutrient levels that "critically impact plant growth." Keywords like "downward spikes" and "critically impact" indicate the focus is on abrupt, severe drops in nutrient levels, not gradual declines or minor fluctuations.  
+
+Step 2 Selecting task-relevant key patterns:  
+[Judgment] Amplitude of drop; rate of decline; deviation from local trend.  
+[Description]  
+- **Amplitude of drop**: A spike must involve a large absolute decrease in nutrient levels (e.g., &gt;10 units) to qualify as "significant."  
+- **Rate of decline**: A single-day d […]</pre></div><div class="other"><div class="who">TimeOmni (fine-tuned)</div><pre class="quote small">Answer: 1</pre></div><div class="other"><div class="who">TimeOmni-1-4B</div><pre class="quote small">2</pre></div><div class="other"><div class="who">Time-MQA-7B</div><pre class="quote small">Based on the data provided, there is one significant downward spike starting from day 18 where the value drops to 29.01, which is a considerable decrease from previous points that were around or above 40. This drop alone greatly impacts the consistency needed for soil nutrients. Subsequently, it could negatively impact plant growth significantly thereafter. Thus, the drop to 29.01 represents a substantial change that might harm plants.</pre></div><div class="other"><div class="who">TimeOmni-VL-15B</div><pre class="quote small">To answer this, I would look for sharp, isolated dips (downward spikes) in the series that last for a few data points and then return to a higher level. These would be the most significant as they represent rapid, critical declines in soil nutrients that could stifle plant growth.</pre></div><div class="other"><div class="who">Chat-TS-8B</div><pre class="quote small">[TS_TOKENS x33] The long-range forecast suggests:  SHAPE OUTPUT:(240, 24).</pre></div><div class="other"><div class="who">OpenTSLM-3B</div><pre class="quote small">(a)</pre></div><div class="other"><div class="who">ChatTime-1-7B</div><pre class="quote small">###0.0085### ###-0.0681### ###-0.1285### ###-0.1917### ###-0.2311### ###-0.2461### ###-0.2357### ###-0.1937### ###-0.1299### ###-0.0681### ###-0.0045### ###0.0377### ###0.0705### ###0.0743### ###0.0505### ###0.0053### ###-0.0475### ###-0.0817### ###-0.1013### ###-0.0977### ###-0.0587### ###-0.0011### ###0.0829### ###0.1735### ###0.2663### ###0.3627### ###0.4407### ###0.4795### ###0.4931### ###0.4863### ###0.4583### ###0.4347### ###0.3891### ###0.3535### ###0.3199### ###0.2753### ###0.2357### ###0.1889### ###0.1409### ###0.0851### ###0.0223### ###-0.0425### ###-0.1033### ###-0.1599### ###-0.2061### ###-0.2313### ###-0.2313### ###-0.2081### ###-0.1549### ###-0.0913### ###-0.0329### ###0.0223## […]</pre></div></details></section><section class="case" id="case-U5"><h4><span class="tag">U5</span> An executable criterion (VeriTime, Manufacturing)</h4><figure class="fig"><img src="assets/cases/U5.png" alt="Case U5" width="1980" height="522" loading="lazy"><figcaption>The band of mean $\pm 2\sigma$ and the maximum, which clears it by 0.09.</figcaption></figure><p>The question defines a notable anomaly as a maximum that deviates from the mean by more than twice the noise standard deviation, and asks whether the series contains one; the answer is yes. The series is a flat noise band whose maximum clears the $2\sigma$ line by a small margin: mean $-4.32$, maximum $-3.79$ at index 82, $\sigma$ 0.22, so the deviation of 0.53 exceeds 0.44. The trace estimates the three quantities (mean $-4.48$, maximum $-3.60$, $\sigma$ 0.25), compares them, and adds a sensitivity check: with $\sigma$ raised to 0.35 the conclusion stands. Each estimate is slightly off, and the check covers the error. No other model answers yes. The no-reasoning model, the fine-tuned LLM, TimeOmni and TimeOmni-1 answer no without computing; Time-MQA computes, estimates $\sigma$ as 0.36, and concludes no; TimeOmni-VL lists the steps without carrying them out. A question that states an executable criterion is answered by executing it.</p><details><summary>Question as posed</summary><pre class="quote">You are a time series analysis expert. This is a metric called Production Line Efficiency collected from Manufacturing with length of 256:. Given that a time series is deemed to exhibit a notable anomaly if its maximum value deviates from the mean by more than twice the standard deviation of noise, does the Production Line Efficiency time series contain any notable anomalies?</pre></details>
+<details open><summary>Reasoning trace generated by TimeOmni-o1</summary><pre class="trace">Step 1 Analyzing task intent:  
+[Judgment] This is an anomaly detection task.  
+[Description] The problem explicitly asks whether the time series contains "notable anomalies" defined by a specific statistical threshold (values deviating from the mean by &gt;2σ of noise). Keywords like "anomaly," "deviates from the mean," and "standard deviation of noise" confirm this is an anomaly detection task.  
+
+Step 2 Selecting task-relevant key patterns:  
+[Judgment] Maximum value; Mean; Standard deviation of noise; Threshold (2σ).  
+[Description] The task requires comparing the maximum value of the series to a threshold derived from the mean and noise standard deviation. These patterns directly determine whether an anomaly exists per the given definition.  
+
+Step 3 Analyzing time series samples using selected key patterns:  
+[Analysis]  
+1. **Compute mean**: The mean of the series is approximately **-4.48**.  
+2. **Identify maximum value**: The highest value in the series is **-3.6016**.  
+3. **Estimate noise standard deviation**: The series likely reflects process noise with small fluctuations around the mean. Assuming σ ≈ **0.25** (based on typical manufacturing efficiency noise levels and data spread), 2σ = **0.50**.  
+4. **Calculate deviation**: The maximum value (-3.6016) deviates from the mean by **| -4.48 - (-3.6016) | = 0.8784**, which exceeds 2σ (0.50).  
+
+Step 4 Generating preliminary answers by combining task intent and key patterns:  
+[Judgment] Yes  
+[Description] The maximum value (-3.6016) deviates from the mean (-4.48) by 0.8784, which exceeds 2σ (0.50) for typical noise levels. This meets the anomaly criterion.  
+
+Step 5 Enhancing answers through reflection:  
+[Analysis]  
+- **Verification**: Rechecking the data confirms -3.6016 is indeed the maximum.  
+- **Noise estimation**: While the exact σ is not provided, 0.25 is a reasonable estimate for manufacturing process noise. Even if σ were larger (e.g., 0.35), 2σ = 0.70, and the deviation (0.8784) still exceeds it.  
+- **Interfering factors**: No transient fluctuations or missing data affect the analysis.  
+
+Step 6 Summarizing the thinking process to output the answer:  
+[Description] The task required detecting anomalies using a statistical threshold. The maximum value (-3.6016) deviates from the mean (-4.48) by 0.8784, exceeding 2σ (0.50–0.70) for realistic noise levels. This qualifies as a notable anomaly.  
+[Judgment] Yes</pre><p class="final"><span class="k">Final answer</span> Yes</p></details>
+<details><summary>Raw outputs of the compared models</summary><div class="other"><div class="who">None (no reasoning)</div><pre class="quote small">Answer: No</pre></div><div class="other"><div class="who">TimeOmni-o1&#x27;s LLM (zero-shot)</div><pre class="quote small">Thinking Process:
+
+1.  **Analyze the Request:**
+    *   Input: A raw time series dataset (1 channel, 256 points). The data is provided as a list of numbers, but it's truncated in the prompt (indicated by "... (truncated) ..."). However, I need to work with the provided data. Wait, looking closely at the prompt, it says "Raw time series (1 channel, 256 points per channel)". The data provided seems to be a single sequence of numbers. I need to count how many numbers are actually provided to see if I have the full 256 points or if I need to estimate based on the visible portion.
+    *   Metric: Production Line Efficiency.
+    *   Condition for Anomaly: A point is a notable anomaly if $|x_i - \m […]</pre></div><div class="other"><div class="who">TimeOmni-o1&#x27;s LLM (fine-tuned)</div><pre class="quote small">Step 1 Analyzing task intent:  
+[Judgment] This is an anomaly detection task.  
+[Description] The problem explicitly asks whether the time series contains "notable anomalies" based on a defined criterion involving deviation from the mean by more than twice the standard deviation of noise. Keywords like "anomaly," "deviates from the mean," and "twice the standard deviation" confirm this is an anomaly detection task.  
+
+Step 2 Selecting task-relevant key patterns:  
+[Judgment] Maximum value deviation from mean; Standard deviation of noise.  
+[Description]  
+- **Maximum value deviation from mean**: The task defines anomalies as values where the maximum deviates from the mean by &gt;2σ (standard de […]</pre></div><div class="other"><div class="who">TimeOmni (fine-tuned)</div><pre class="quote small">Answer: No</pre></div><div class="other"><div class="who">TimeOmni-1-4B</div><pre class="quote small">No</pre></div><div class="other"><div class="who">Time-MQA-7B</div><pre class="quote small">The mean of the series is approximately around -4.2 with a standard deviation of about 0.36. The data point not far from the series mean is -4.769, which is the smallest in the dataset, and also around -3.954 which is very distant from the typical values observed. Considering the standard deviation based on noise, this deviation suggests a potential anomaly but not exceeding twice the noise level. Therefore, there are no notable anomalies that stand out as following the expected pattern of variations.</pre></div><div class="other"><div class="who">TimeOmni-VL-15B</div><pre class="quote small">To determine if the given time series exhibits any notable anomalies, we would typically follow these steps:
+
+1. **Calculate the Mean and Standard deviation:**
+   - Compute the mean (μ) of the entire series.
+   - Compute the standard deviation (σ) of the series.
+
+2. ** threshold Calculation:**
+   - Calculate the threshold for anomaly detection: mean ± 2 * standard deviation.
+
+3. **Anomaly Identification:**
+   - Compare each data point to the anomaly threshold.
+   - If any data point falls outside the anomaly threshold, it is considered an anomaly.
+
+However, since the actual values and their context (such as the units and the expected range) are not provided, we cannot proceed with the calcul […]</pre></div><div class="other"><div class="who">Chat-TS-8B</div><pre class="quote small">[TS_TOKENS x99] After reconstructing the input, the sample appears as:  SHAPE OUTPUT:(240, 25). After reconstructing the input, the sample appears as:  SHAPE OUTPUT:(240, 25). Here is the projected time-series:  SHAPE OUTPUT:(240, 25). Here is the reconstructed time-series with the imputed values:  SHAPE</pre></div><div class="other"><div class="who">OpenTSLM-3B</div><pre class="quote small">(b)</pre></div><div class="other"><div class="who">ChatTime-1-7B</div><pre class="quote small">###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### ###-0.5001### […]</pre></div></details></section><section class="case" id="case-U6"><h4><span class="tag">U6</span> Fine-grained diagnosis (Time-RA, Earth science)</h4><figure class="fig"><img src="assets/cases/U6.png" alt="Case U6" width="1980" height="522" loading="lazy"><figcaption>A smooth decline with no break, rebound or change of variance.</figcaption></figure><p>The 21-way question asks which category describes a 64-point environmental-sensor series; the answer is normal sequence. The series declines smoothly from $-0.70$ to $-1.80$ with no break, rebound or change of variance; in the source taxonomy a drift anomaly requires a systematic departure from a baseline, not a smooth decline. Every other model that produces a category reports drift (the no-reasoning model, the fine-tuned LLM, TimeOmni, TimeOmni-1 and Time-MQA), and TimeOmni-VL reports trend divergence. The trace of TimeOmni-o1 checks for disruptions, spikes and irregularities first and assigns the category only then. The same calibration shows over the 453 univariate Time-RA test samples: 188 are normal, the no-reasoning model labels 132 of them normal and predicts drift 96 times against 58 true, and TimeOmni-o1 labels 177 normal and predicts drift 62 times.</p><details><summary>Question as posed</summary><pre class="quote">You are a time series anomaly diagnosis expert. The following is a univariate time series of length 64, collected from Environment-Sensor.
+
+Analyze the temporal patterns and determine which of the following categories best describes this sequence:
+- Amplitude Anomaly
+- Change Point Anomaly
+- Collinearity Shift Anomaly
+- Continuous Segment Anomaly
+- Covariance Structure Anomaly
+- Distributional Change Anomaly
+- Drift Anomaly
+- Joint Space Anomaly
+- Nonlinear Pattern Anomaly
+- Normal Sequence
+- Pattern Change Anomaly
+- Periodic Change Anomaly
+- Point Anomaly
+- Principal Component Space Anomaly
+- Repeated Value Anomaly
+- Sparse Anomaly
+- Sudden Flatline Anomaly
+- Sudden Spike Anomaly
+- Temporal Dependency Anomaly
+- Trend Change Anomaly
+- Trend Divergence Anomaly
+
+Reason about the observed dynamics, then give the category name.</pre></details>
+<details open><summary>Reasoning trace generated by TimeOmni-o1</summary><pre class="trace">The sequence exhibits a consistent downward trend with no sudden disruptions, spikes, or irregularities. The fluctuations appear to be within a normal range for an environment-sensor domain, and there are no significant deviations from the expected behavior. This indicates a normal sequence.</pre><p class="final"><span class="k">Final answer</span> Normal Sequence</p></details>
+<details><summary>Raw outputs of the compared models</summary><div class="other"><div class="who">None (no reasoning)</div><pre class="quote small">Answer: Drift Anomaly</pre></div><div class="other"><div class="who">TimeOmni-o1&#x27;s LLM (zero-shot)</div><pre class="quote small">&lt;/think&gt;
+
+### Analysis of Temporal Dynamics
+
+1.  **Initial State (Points 1–20):**
+    The sequence begins with values fluctuating tightly around a mean of approximately **-0.8 to -0.9**. The range is roughly $[-1.0, -0.58]$. The variance is low, and the data exhibits a stationary, noisy behavior typical of a stable sensor reading in a specific operating regime.
+
+2.  **Transition Phase (Points 21–30):**
+    Starting at index 21 ($t=21$), the value drops to **-1.18**. From here, the values begin a consistent downward trajectory. By index 30, the value has reached **-1.44**. This marks the beginning of a distinct shift in the baseline level of the signal.
+
+3.  **New Regime (Points 31–64):** […]</pre></div><div class="other"><div class="who">TimeOmni-o1&#x27;s LLM (fine-tuned)</div><pre class="quote small">The time series exhibits a gradual downward drift in values, with the data progressively moving away from the initial range. This indicates a systematic deviation from the normal level, characteristic of a drift anomaly.
+&lt;/think&gt;
+
+Answer: Drift Anomaly</pre></div><div class="other"><div class="who">TimeOmni (fine-tuned)</div><pre class="quote small">Answer: Drift Anomaly</pre></div><div class="other"><div class="who">TimeOmni-1-4B</div><pre class="quote small">Drift Anomaly</pre></div><div class="other"><div class="who">Time-MQA-7B</div><pre class="quote small">The sequence shows a general decrease in values from -0.7 to -1.88 with some abrupt changes in the rate of decrease, particularly between -0.82 and -0.68. This indicates a drift but with sudden transitions in the rate of change. Therefore, the category is Drift Anomaly.</pre></div><div class="other"><div class="who">TimeOmni-VL-15B</div><pre class="quote small">The sequence is a smooth, continuous, and monotonic decrease from a high value to a low value. There are no abrupt changes, spikes, or flatlines; it is a single, undisturbed segment. Therefore, the best category for this sequence is:
+
+- Trend Divergence Anomaly</pre></div><div class="other"><div class="who">Chat-TS-8B</div><pre class="quote small">[TS_TOKENS x72] After reconstructing the input, the sample appears as:  SHAPE OUTPUT:(66, 10). After reconstructing the input, the sample appears as:  SHAPE OUTPUT:(66, 10). After reconstructing the input, the sample appears as:  SHAPE OUTPUT:(66, 10). Here is the projected time-series:  SHAPE OUTPUT:(66, 10).</pre></div><div class="other"><div class="who">OpenTSLM-3B</div><pre class="quote small">(c)</pre></div><div class="other"><div class="who">ChatTime-1-7B</div><pre class="quote small">###-0.5847### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693### ###0.6693# […]</pre></div></details></section>
+  <figure class="tblwrap" id="tab-case-und"><figcaption><span class="lbl">Table 4.</span> Answers of every compared model on the three understanding cases, scored leniently. Bold marks a correct answer. &ldquo;No answer&rdquo;: the generation budget ended inside the reasoning. &ldquo;Method only&rdquo;: the output lists steps without a result. &ldquo;Degenerate&rdquo;: token dumps, a bare option letter, or a numeric continuation.</figcaption><div class="scroll"><table class="tbl">
+<thead>
+<tr><th>Model</th><th class="ctr">U1 (count)</th><th class="ctr">U5 (yes / no)</th><th class="ctr">U6 (category)</th></tr>
+</thead>
+<tbody>
+<tr><td>Ground truth</td><td class="num">3</td><td class="ctr">yes</td><td class="ctr">normal sequence</td></tr>
+<tr class="sep ours"><td><strong>TimeOmni-o1 (Ours)</strong></td><td class="num"><strong>3</strong></td><td class="ctr"><strong>yes</strong></td><td class="ctr"><strong>normal sequence</strong></td></tr>
+<tr><td>None (no reasoning)</td><td class="num">2</td><td class="ctr">no</td><td class="ctr">drift anomaly</td></tr>
+<tr><td>TimeOmni-o1&rsquo;s LLM</td><td class="ctr">no answer</td><td class="ctr">no answer</td><td class="ctr">no answer</td></tr>
+<tr><td>TimeOmni-o1&rsquo;s LLM$\ddagger$</td><td class="num">1</td><td class="ctr">no</td><td class="ctr">drift anomaly</td></tr>
+<tr><td>TimeOmni$\ddagger$</td><td class="num">1</td><td class="ctr">no</td><td class="ctr">drift anomaly</td></tr>
+<tr><td>TimeOmni-1-4B</td><td class="num">2</td><td class="ctr">no</td><td class="ctr">drift anomaly</td></tr>
+<tr><td>Time-MQA-7B</td><td class="num">1</td><td class="ctr">no</td><td class="ctr">drift anomaly</td></tr>
+<tr><td>TimeOmni-VL-15B</td><td class="ctr">method only</td><td class="ctr">method only</td><td class="ctr">trend divergence anomaly</td></tr>
+<tr><td>Chat-TS-8B, OpenTSLM-3B, ChatTime-1-7B</td><td class="ctr">degenerate</td><td class="ctr">degenerate</td><td class="ctr">degenerate</td></tr>
+</tbody></table></div></figure>
+  <h3 id="cases-fc">Forecasting: where reading the event decides the forecast</h3>
+  <p>The three forecasting cases share one figure layout (the figures below). Panel (a) shows the full history, the ground truth and the median forecast of TimeOmni-o1 with its 10 to 90% band. Panels (b) to (d) zoom on the horizon and compare the ground truth with the text-blind TSFM (zero-shot and fine-tuned), with the two external forecasters that read the text (TimeReasoner and DoubleCast), and with the same checkpoint under the three text conditions of Figure 3(b) of the paper: none (the no-reasoning model), shuffled events and no-info. <a href="#tab-case-fc">Table 5</a> lists the CRPS over the full horizon and over the ROI and the ROI Pearson correlation for every compared model.</p>
+  <section class="case" id="case-F1"><h4><span class="tag">F1</span> The weather sets the magnitude (Fidel-TS 50Hertz, Solar)</h4><figure class="fig"><img src="assets/cases/F1.png" alt="Case F1" width="1980" height="1206" loading="lazy"><figcaption>Case F1, solar feed-in in the 50Hertz zone after three clear days, with rain in the forecast. <strong>(a)</strong> TimeOmni-o1 follows the stated magnitude and matches the low day. <strong>(b)</strong> The text-blind TSFM draws a fourth clear day. <strong>(c)</strong> So do the external forecasters that read the text. <strong>(d)</strong> The same checkpoint returns to a clear day when the text is uninformative; the no-reasoning model lowers the peak but misses the afternoon decline. The shaded span is the annotated ROI.</figcaption></figure><p>After three clear days with daily peaks of 2,490 to 2,700 MW, the text for the forecast day reads: a mix of sunshine and clouds, light rain showers in the late afternoon, a chance of fog in the evening. The realized peak is 1,090 MW. The trace maps the event onto the daytime window, turns the mixed sky into a low, broad crest and the showers into a faster decline after them, and the instruction states a magnitude well below the typical peak. The forecaster follows it: the peak is 1,144 MW and the CRPS 0.183. Every model that does not read the text, or reads it without acting on it, draws a fourth clear day. The zero-shot and fine-tuned TSFM peak at 2,448 and 2,384 MW and DoubleCast at 2,390; TimeReasoner peaks at 2,581 although its reasoning quotes the sun, clouds and rain and then judges that &ldquo;the average is fine&rdquo;. Panel (d) isolates the mechanism on one checkpoint. With an uninformative text the forecast returns to a clear-day bell, peak 2,414 MW and CRPS 1.161, the zero-shot level; with another day&rsquo;s weather the peak is 1,758 MW. The no-reasoning model reads the same text and lowers the peak to 820 MW, but it misses the accelerated afternoon decline (CRPS 0.205).</p><details><summary>Background and event description</summary><p class="k">Background</p><pre class="quote">This series records solar power feed-in (in megawatts) for the German 50Hertz
+transmission zone, one point every 15 minutes. It follows a daytime bell shape
+that is zero overnight, with the peak height and texture gated by cloud cover
+and weather across the zone. Values are non-negative.</pre><p class="k">Event</p><pre class="quote">Weather forecast for 2014-09-30 in the German 50Hertz transmission zone area: a mix of sunshine and clouds throughout the day, with a gentle temperature rise during the day and a slight drop in the evening. Light rain showers are expected in the late afternoon. A chance of fog in the evening.</pre></details>
+<details open><summary>Reasoning trace and forecast instruction generated by TimeOmni-o1</summary><pre class="trace">The ROI spans 2014-09-30 06:00 through 2014-09-30 18:00 (rows 312 to 356), covering the full daylight generation window on the forecast day. The history window shows that on clear days solar feed-in rises steeply to a sharp midday crest, while the forecast of mixed sunshine and clouds throughout the day produces a gradual, irregular rise to a broad, low-amplitude crest around midday. The slight evening temperature drop and chance of fog suppress generation in the late afternoon, and the forecast light rain showers in the late afternoon accelerate the decline to near-zero by 18:00.</pre><p class="final"><span class="k">Forecast instruction</span> Over the daytime generation window [312, 357), solar feed-in rises gradually and irregularly to a low, broad midday crest, then declines slowly through the afternoon to near-zero by 18:00. Overall, with rain in the mix, the peak stays well below the series&#x27; typical highs.</p></details>
+<details><summary>Annotated reference trace and instruction</summary><pre class="quote">The ROI covers 2014-09-30 07:00 (row 316) through 2014-09-30 19:00 (row 364), the full active solar generation period on the forecast day. The mix of sunshine and clouds on September 30 moderates output substantially compared to the taller, sharper peaks seen across the three prior days in the history window, and produces minor irregularities around the crest region as intermittent clouds pass. The late-afternoon light rain showers further constrain recovery toward the end of the decline.</pre><p class="final"><span class="k">Annotated instruction</span> The span [316, 365) captures the full solar generation period on 2014-09-30, which rises steadily through the morning to a broad and slightly irregular early-afternoon crest, then declines to near-zero by early evening.</p></details>
+<details><summary>Reasoning of TimeReasoner on the same sample</summary><pre class="quote small tall">We are given historical data for solar power feed-in in the German 50Hertz transmission zone from 2014-09-27 00:00 to 2014-09-29 23:45 (3 days, 288 points). We need to forecast the next 96 points for 2014-09-30 (the full day).
+
+The series exhibits a clear daily seasonal pattern: zero at night, then a bell-shaped curve during daylight hours, peaking around midday. We have three days of history (Saturday, Sunday, Monday). The forecast day is Tuesday (2014-09-30). The weather forecast for that day is: mix of sunshine and clouds, gentle temperature rise, light rain showers in late afternoon, chance of fog in evening.
+
+Let's analyze the three days:
+
+- Sep 27 (Saturday): Clear? The curve is smooth, peak around 2490 at 13:00, then declines. Seems relatively clear.
+- Sep 28 (Sunday): Peak around 2701 at 12:45, higher than Saturday. Still smooth.
+- Sep 29 (Monday): Peak around 2593 at 12:30, slightly lower than Sunday but still high.
+
+So there is some day-to-day variability likely due to cloud cover. The weather forecast for Sep 30 suggests a mix of sun and clouds, with late afternoon rain showers and evening fog. This implies that the solar generation will be somewhat reduced compared to a clear day, especially in the afternoon and evening. The fog in evening may cause early drop? But fog is low-level, so after sunset it's already zero. The rain showers in late afternoon could cause a dip.
+
+We need to produce a forecast that captures the daily shape but adjusted for the expected cloud cover. Since we have three days of history, we can take an average of the three days as a baseline, then adjust for the weather.
+
+Let's compute the average daily profile from the three days. But note that sunrise and sunset times are similar across these days in late September. The pattern: values start rising from zero around 07:00 (first non-zero at 07:00 on Sep 27, 07:00 on Sep 28, 07:00 on Sep 29). The sun sets around? Values drop to zero by 19:30-20:00. So the active period is roughly 07:00-19:45.
+
+We'll compute the average for each 15-minute interval across the three days. Since we have 96 intervals per day (24*4), we can align the days: indices 0-95 for Sep 27 (00:00-23:45), 96-191 for Sep 28, 192-287 for Sep 29. The forecast is indices 288-383 for Sep 30.
+
+But careful: The data is given from Sep 27 00:00 to Sep 29 23:45, so indices 0-287. So the day profiles are: day1 (Sat): indices 0-95; day2 (Sun): indices 96-191; day3 (Mon): indices 192-287.
+
+We can compute the average for each time slot (0 to 95) across the three days.
+
+Let me extract the values for each day at the same time of day.
+
+From the data:
+
+Day1 (Sep 27):
+00:00-06:45: all zeros.
+07:00: 7, 07:15:25, 07:30:62, 07:45:122
+08:00:223, 08:15:310, 08:30:445, 08:45:570
+09:00:736, 09:15:915, 09:30:1117, 09:45:1346
+10:00:1416, 10:15:1544, 10:30:1668, 10:45:1778
+11:00:1864, 11:15:1982, 11:30:2083, 11:45:2158
+12:00:2216, 12:15:2270, 12:30:2459, 12:45:2467
+13:00:2490, 13:15:2351, 13:30:2280, 13:45:2168
+14:00:2171, 14:15:2154, 14:30:2082, 14:45:2071
+15:00:2057, 15:15:1952, 15:30:1823, 15:45:1677
+16:00:1530, 16:15:1383, 16:30:1204, 16:45:1066
+17:00:851, 17:15:674, 17:30:523, 17:45:367
+18:00:231, 18:15:119, 18:30:54, 18:45:15
+19:00:3, 19:15:1, 19:30:0, 19:45:0, 20:00-23:45: zeros.
+
+Day2 (Sep 28):
+00:00-06:45: zeros.
+07:00:6, 07:15:32, 07:30:96, 07:45:225
+08:00:413, 08:15:513, 08:30:672, 08:45:886
+09:00:1084, 09:15:1215, 09:30:1455, 09:45:1652
+10:00:1776, 10:15:1921, 10:30:2031, 10:45:2182
+11:00:2307, 11:15:2384, 11:30:2507, 11:45:2561
+12:00:2622, 12:15:2615, 12:30:2692, 12:45:2701
+13:00:2637, 13:15:2604, 13:30:2547, 13:45:2570
+14:00:2443, 14:15:2389, 14:30:2313, 14:45:2191
+15:00:2056, 15:15:1866, 15:30:1713, 15:45:1540
+16:00:1385, 16:15:1208, 16:30:1052, 16:45:859
+17:00:661, 17:15:467, 17:30:343, 17:45:243
+18:00:143, 18:15:70, 18:30:32, 18:45:8
+19:00:2, 19:15:1, 19:30:0, 19:45:0, then zeros.
+
+Day3 (Sep 29):
+00:00-06:45: zeros.
+07:00:5, 07:15:25, 07:30:68, 07:45:157
+08:00:292, 08:15:407, 08:30:534, 08:45:699
+09:00:873, 09:15:998, 09:30:1204, 09:45:1377
+10:00:1520, 10:15:1667, 10:30:1831, 10:45:2001
+11:00:2106, 11:15:2186, 11:30:2354, 11:45:2450
+12:00:2531, 12:15:2490, 12:30:2593, 12:45:2565
+13:00:2557, 13:15:2487, 13:30:2455, 13:45:2408
+14:00:2291, 14:15:2162, 14:30:2111, 14:45:1991
+15:00:1877, 15:15:1699, 15:30:1569, 15:45:1419
+16:00:1278, 16:15:1129, 16:30:971, 16:45:786
+17:00:612, 17:15:463, 17:30:360, 17:45:246
+18:00:137, 18:15:67, 18:30:28, 18:45:6
+19:00:2, 19:15:0, then zeros.
+
+Now we can compute the average for each 15-minute slot (0 to 95). Let's denote time slots from 00:00 to 23:45.
+
+I'll compute the average for slots where any day has non-zero. For simplicity, I'll compute the average of the three values for each slot. But note: There is some variation, and the weather forecast suggests mixed conditions. The average might be a good base, but we should adjust downward for afternoon showers and fog. However, fog in evening likely doesn't affect much as it's after sunset. The late afternoon rain showers could cause a dip in generation, so we might slightly reduce the afternoon values compared to the average.
+
+Also, note that Sep 27 (Saturday) and Sep 28 (Sunday) are weekend, while Sep 29 is Monday. There might be some weekday effect? But the background says it's solar power, so no human activity impact, only weather. So we treat all days similarly.
+
+Let me compute the average for each slot. I'll do it systematically.
+
+Slot indices (time):
+0:00:00 to 0:15: etc. Up to 95:23:45.
+
+First, zeros from 00:00 to 06:45 (indices 0-27? Actually 00:00 is index0, 00:15 index1, ... 06:45 is index27 because 6*4=24, plus 3*4? Let's calculate: 6 hours = 24 slots, 45 minutes = 3 slots, so 06:45 is index 27? 07:00 is index 28. So indices 0-27 are zeros for all days. So average is 0.
+
+Now from 07:00 (index28) onwards:
+
+I'll list values for each day at each index from 28 to 95 (07:00 to 23:45). Note that after 19:45, all zeros.
+
+Let's create a table:
+
+Index | Time  | Day1 | Day2 | Day3
+28 | 07:00 | 7  | 6  | 5
+29 | 07:15 | 25 | 32 | 25
+30 | 07:30 | 62 | 96 | 68
+31 | 07:45 |122 |225 |157
+32 | 08:00 |223 |413 |292
+33 | 08:15 |310 |513 |407
+34 | 08:30 |445 |672 |534
+35 | 08:45 |570 |886 |699
+36 | 09:00 |736 |1084|873
+37 | 09:15 |915 |1215|998
+38 | 09:30 |1117|1455|1204
+39 | 09:45 |1346|1652|1377
+40 | 10:00 |1416|1776|1520
+41 | 10:15 |1544|1921|1667
+42 | 10:30 |1668|2031|1831
+43 | 10:45 |1778|2182|2001
+44 | 11:00 |1864|2307|2106
+45 | 11:15 |1982|2384|2186
+46 | 11:30 |2083|2507|2354
+47 | 11:45 |2158|2561|2450
+48 | 12:00 |2216|2622|2531
+49 | 12:15 |2270|2615|2490
+50 | 12:30 |2459|2692|2593
+51 | 12:45 |2467|2701|2565
+52 | 13:00 |2490|2637|2557
+53 | 13:15 |2351|2604|2487
+54 | 13:30 |2280|2547|2455
+55 | 13:45 |2168|2570|2408
+56 | 14:00 |2171|2443|2291
+57 | 14:15 |2154|2389|2162
+58 | 14:30 |2082|2313|2111
+59 | 14:45 |2071|2191|1991
+60 | 15:00 |2057|2056|1877
+61 | 15:15 |1952|1866|1699
+62 | 15:30 |1823|1713|1569
+63 | 15:45 |1677|1540|1419
+64 | 16:00 |1530|1385|1278
+65 | 16:15 |1383|1208|1129
+66 | 16:30 |1204|1052|971
+67 | 16:45 |1066|859 |786
+68 | 17:00 |851 |661 |612
+69 | 17:15 |674 |467 |463
+70 | 17:30 |523 |343 |360
+71 | 17:45 |367 |243 |246
+72 | 18:00 |231 |143 |137
+73 | 18:15 |119 |70  |67
+74 | 18:30 |54  |32  |28
+75 | 18:45 |15  |8   |6
+76 | 19:00 |3   |2   |2
+77 | 19:15 |1   |1   |0
+78 | 19:30 |0   |0   |0
+79 | 19:45 |0   |0   |0
+80-95 | 20:00-23:45: all zeros
+
+Now compute average for each index (rounded to nearest integer? The values are integers originally, but we can keep as floats for averaging, then round to integer for forecast. However, the forecast should be plausible integers. I'll compute the average and then round.
+
+But note: The weather forecast suggests a mix of sun and clouds, with late afternoon rain showers. This could reduce generation compared to an average day. Looking at the three days, Day2 (Sunday) was the highest, likely clearer. Day1 and Day3 were lower. The average might represent a typical partly cloudy day. However, the forecast mentions "mix of sunshine and clouds" which is similar to these days, but also "light rain showers in late afternoon" which might cause a dip. Also "chance of fog in the evening" - fog typically reduces solar generation in the morning? But fog in evening is after sunset, so no effect. So we should reduce values in the late afternoon (say from 15:00 onwards) compared to the average. But how much? The rain showers are light, so a moderate reduction. Also, the morning might be slightly affected by clouds? The forecast says "mix of sunshine and clouds throughout the day", so morning might be similar to average. But to be safe, we can take the average and then apply a reduction factor for the afternoon period, maybe 10-20% reduction.
+
+Alternatively, we can look at the pattern: On Day1, the afternoon values were higher than Day3? Actually Day1 afternoon: 17:00 851, 17:15 674, 17:30 523, 17:45 367; Day2: 661,467,343,243; Day3: 612,463,360,246. So Day1 had higher afternoon values. The average afternoon is: (851+661+612)/3=708 at 17:00, etc. The forecast suggests rain in late afternoon, so perhaps the afternoon should be closer to the lower end (Day3 values) or even lower? But rain showers are light, so maybe similar to Day3. But we don't know exactly.
+
+Another approach: Use the most recent day (Day3, Monday) as a baseline and adjust based on weather. Since Day3 is the day before forecast, it might be a good reference. But Day3 might have had its own weather. The historical does not provide weather for those days, but we can infer from the numbers: Day3 had lower peaks than Day2, suggesting some clouds. The forecast for Tuesday (Sep 30) is "mix of sunshine and clouds" similar to Day3? Possibly. The rain showers are additional.
+
+I think a reasonable forecast is to take the average of the three days, then apply a slight reduction (say 5-10%) for the afternoon hours (from 15:00 to 18:00 maybe) to account for rain showers. For the morning and early afternoon, keep the average as is. Also, the average already accounts for some cloudiness. Since the forecast says mix of sun and clouds, the average is appropriate. The rain is the only additional factor.
+
+But we should also consider the shape: The peak time and magnitude. The average peak is around index 50-52 (12:30-13:00). Let's compute average at peak: index50 (12:30): (2459+2692+2593)/3 = (2459+2692=5151, +2593=7744)/3 = 2581.33; index51 (12:45): (2467+2701+2565)/3 = (2467+2701=5168, +2565=7733)/3=2577.67; index52 (13:00): (2490+2637+2557)/3 = (2490+2637=5127, +2557=7684)/3=2561.33. So peak around 2580.
+
+Now for the afternoon reduction: Let's decide to reduce values from index 60 (15:00) to index 75 (18:45) by 10%? But note that after 19:00 it's already very low. The rain showers are "late afternoon", maybe 16:00-18:00? So we can apply a reduction of maybe 15% for indices 64-72 (16:00-18:00) and less for surrounding. However, to keep simple, we can apply a uniform reduction of 10% from 15:00 to 18:45, but that might be too much for early afternoon.
+
+Another factor: The fog in evening - no effect.
+
+Let's compute the average for each slot and then apply a reduction factor. But reduce means multiply by (1 - reduction). For example, if we think the rain reduces generation by 20% relative to average, then we multiply by 0.8 for those hours.
+
+But without more specific guidance, I'll take the average as baseline and then adjust downward for the afternoon. I'll use a simple approach: take the average of the three days, round to nearest integer, and then for indices 60-75 (15:00-18:45), subtract 10% of the average (i.e., multiply by 0.9). Also, for the very early morning (07:00-08:00), the averages are small, so no issue.
+
+I'll compute the average for each index and then round.
+
+Let me compute averages:
+
+I'll compute sum and then average.
+
+Index28: (7+6+5)/3 = 18/3=6 -&gt; average 6
+29: (25+32+25)/3 = 82/3=27.33 -&gt; 27
+30: (62+96+68)/3 = 226/3=75.33 -&gt; 75
+31: (122+225+157)/3 = 504/3=168 -&gt; 168
+32: (223+413+292)/3 = 928/3=309.33 -&gt; 309
+33: (310+513+407)/3 = 1230/3=410 -&gt; 410
+34: (445+672+534)/3 = 1651/3=550.33 -&gt; 550
+35: (570+886+699)/3 = 2155/3=718.33 -&gt; 718
+36: (736+1084+873)/3 = 2693/3=897.67 -&gt; 898
+37: (915+1215+998)/3 = 3128/3=1042.67 -&gt; 1043
+38: (1117+1455+1204)/3 = 3776/3=1258.67 -&gt; 1259
+39: (1346+1652+1377)/3 = 4375/3=1458.33 -&gt; 1458
+40: (1416+1776+1520)/3 = 4712/3=1570.67 -&gt; 1571
+41: (1544+1921+1667)/3 = 5132/3=1710.67 -&gt; 1711
+42: (1668+2031+1831)/3 = 5530/3=1843.33 -&gt; 1843
+43: (1778+2182+2001)/3 = 5961/3=1987 -&gt; 1987
+44: (1864+2307+2106)/3 = 6277/3=2092.33 -&gt; 2092
+45: (1982+2384+2186)/3 = 6552/3=2184 -&gt; 2184
+46: (2083+2507+2354)/3 = 6944/3=2314.67 -&gt; 2315
+47: (2158+2561+2450)/3 = 7169/3=2389.67 -&gt; 2390
+48: (2216+2622+2531)/3 = 7369/3=2456.33 -&gt; 2456
+49: (2270+2615+2490)/3 = 7375/3=2458.33 -&gt; 2458
+50: (2459+2692+2593)/3 = 7744/3=2581.33 -&gt; 2581
+51: (2467+2701+2565)/3 = 7733/3=2577.67 -&gt; 2578
+52: (2490+2637+2557)/3 = 7684/3=2561.33 -&gt; 2561
+53: (2351+2604+2487)/3 = 7442/3=2480.67 -&gt; 2481
+54: (2280+2547+2455)/3 = 7282/3=2427.33 -&gt; 2427
+55: (2168+2570+2408)/3 = 7146/3=2382 -&gt; 2382
+56: (2171+2443+2291)/3 = 6905/3=2301.67 -&gt; 2302
+57: (2154+2389+2162)/3 = 6705/3=2235 -&gt; 2235
+58: (2082+2313+2111)/3 = 6506/3=2168.67 -&gt; 2169
+59: (2071+2191+1991)/3 = 6253/3=2084.33 -&gt; 2084
+60: (2057+2056+1877)/3 = 5990/3=1996.67 -&gt; 1997
+61: (1952+1866+1699)/3 = 5517/3=1839 -&gt; 1839
+62: (1823+1713+1569)/3 = 5105/3=1701.67 -&gt; 1702
+63: (1677+1540+1419)/3 = 4636/3=1545.33 -&gt; 1545
+64: (1530+1385+1278)/3 = 4193/3=1397.67 -&gt; 1398
+65: (1383+1208+1129)/3 = 3720/3=1240 -&gt; 1240
+66: (1204+1052+971)/3 = 3227/3=1075.67 -&gt; 1076
+67: (1066+859+786)/3 = 2711/3=903.67 -&gt; 904
+68: (851+661+612)/3 = 2124/3=708 -&gt; 708
+69: (674+467+463)/3 = 1604/3=534.67 -&gt; 535
+70: (523+343+360)/3 = 1226/3=408.67 -&gt; 409
+71: (367+243+246)/3 = 856/3=285.33 -&gt; 285
+72: (231+143+137)/3 = 511/3=170.33 -&gt; 170
+73: (119+70+67)/3 = 256/3=85.33 -&gt; 85
+74: (54+32+28)/3 = 114/3=38 -&gt; 38
+75: (15+8+6)/3 = 29/3=9.67 -&gt; 10
+76: (3+2+2)/3 = 7/3=2.33 -&gt; 2
+77: (1+1+0)/3 = 2/3=0.67 -&gt; 1
+78: (0+0+0)=0
+79: 0
+80-95: 0
+
+Now, for indices 60-75 (15:00 to 18:45), we apply a reduction factor of 0.9 (10% reduction) to account for light rain showers. However, note that the rain is expected in late afternoon, so maybe only from 16:00 onwards? But to be safe, I'll apply from 15:00 to 18:00 (indices 60-72) and keep 73-75 (18:15-18:45) as is? Or maybe also reduce later? The rain showers are late afternoon, so possibly 16:00-18:00. I'll reduce indices 64 to 72 (16:00-18:00) by 15%? Let's decide: I'll apply a 10% reduction for indices 60-72 (15:00-18:00) and no reduction for 73-75 (after 18:00) because by then the rain may have passed? Actually it says "light rain showers in the late afternoon", so likely until around 18:00. After that, chance of fog in evening, but fog may not affect solar. So I'll reduce indices 60-72 by 10%. For indices 60-63 (15:00-15:45), the reduction might be smaller if rain starts later. To simplify, I'll apply a uniform 10% for all these 13 indices (60-72). Then round to nearest integer.
+
+Let me compute:
+
+Index60 avg=1997, reduced=1997*0.9=1797.3 -&gt; 1797
+61: 1839*0.9=1655.1 -&gt; 1655
+62: 1702*0.9=1531.8 -&gt; 1532
+63: 1545*0.9=1390.5 -&gt; 1391
+64: 1398*0.9=1258.2 -&gt; 1258
+65: 1240*0.9=1116 -&gt; 1116
+66: 1076*0.9=968.4 -&gt; 968
+67: 904*0.9=813.6 -&gt; 814
+68: 708*0.9=637.2 -&gt; 637
+69: 535*0.9=481.5 -&gt; 482
+70: 409*0.9=368.1 -&gt; 368
+71: 285*0.9=256.5 -&gt; 257
+72: 170*0.9=153 -&gt; 153
+73: 85 (no reduction)
+74: 38
+75: 10
+76: 2
+77: 1
+78-95: 0
+
+For the morning and early afternoon (indices 28-59), keep as original averages.
+
+Also, for indices 0-27: all zeros.
+
+Now we have forecast values for all 96 slots for Sep 30.
+
+But we must ensure that the forecast is non-negative, which it is.
+
+List all 96 values from index 0 to 95.
+
+Index0-27: zeros (28 zeros)
+Indices 28-59 (32 values): 6,27,75,168,309,410,550,718,898,1043,1259,1458,1571,1711,1843,1987,2092,2184,2315,2390,2456,2458,2581,2578,2561,2481,2427,2382,2302,2235,2169,2084
+Then indices 60-72 (13 values): 1797,1655,1532,1391,1258,1116,968,814,637,482,368,257,153
+Then indices 73-77 (5 values): 85,38,10,2,1
+Indices 78-95 (18 zeros)
+
+Total: 28+32=60, +13=73, +5=78, +18=96. Good.
+
+Now we need to output as JSON array of exactly 96 numbers.
+
+But we should double-check the time indices: The forecast starts at 2014-09-30 00:00:00, which is index 288. So our forecast array should correspond to times from 00:00 to 23:45. So the zeros at the beginning are correct.
+
+Let's write the array explicitly.
+
+I'll list them in order:
+
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 6,27,75,168,309,410,550,718,898,1043,1259,1458,1571,1711,1843,1987,2092,2184,2315,2390,2456,2458,2581,2578,2561,2481,2427,2382,2302,2235,2169,2084,1797,1655,1532,1391,1258,1116,968,814,637,482,368,257,153,85,38,10,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+Now verify count: first 28 zeros: indices 0-27. Then from index28 to index59: that's 32 numbers? Actually index28 to index59 inclusive is 32 indices? 59-28+1=32. Yes. Then index60 to index72: 13 indices. Then index73 to index77: 5 indices. Then index78 to index95: 18 zeros. Sum 28+32+13+5+18=96.
+
+Now output as JSON.
+
+I'll format as ```json [...]```.
+
+But before finalizing, consider if any further adjustment is needed. The weather forecast said "mix of sunshine and clouds throughout the day, with a gentle temperature rise during the day and a slight drop in the evening. Light rain showers are expected in the late afternoon. A chance of fog in the evening." The fog in evening might cause a slightly earlier drop? But after sunset, no effect. The gentle temperature rise doesn't affect solar directly. So our forecast seems reasonable.
+
+However, we might also consider that the average of three days might not be perfectly representative if there is a trend. Looking at the peaks: Day2 was highest, Day1 and Day3 lower. There might be some weekly pattern? But no clear trend over 3 days. The forecast day is a Tuesday, which might be like Monday (Day3) in terms of weather patterns? But we don't know. Our average gives a balanced view.
+
+Alternatively, we could weight the most recent day more heavily. For example, use 0.5*Day3 + 0.25*Day2 + 0.25*Day1. But that would be more complex. Given the forecast is for a mix of sun and clouds, and rain, the average is fine.
+
+Let me quickly compute the weighted average (50% Day3, 25% Day2, 25% Day1) for some key points to see if it differs significantly. At peak index50: Day3=2593, Day2=2692, Day1=2459. Weighted=0.5*2593+0.25*2692+0.25*2459 = 1296.5+673+614.75=2584.25, close to 2581. At afternoon index68 (17:00): Day3=612, Day2=661, Day1=851. Weighted=0.5*612+0.25*661+0.25*851 = 306+165.25+212.75=684, vs average 708. So weighted is lower, which would be more conservative for afternoon. Since we are already reducing by 10%, the weighted average would give even lower. But I think our approach is fine.
+
+Another consideration: The rain showers might cause a dip but also possible recovery? But we don't have info. So we'll stick with the average plus reduction.
+
+Thus final answer.
+
+I'll present reasoning first, then the JSON.</pre></details></section><section class="case" id="case-F5"><h4><span class="tag">F5</span> The news sets the direction (From News to Forecast, Bitcoin)</h4><figure class="fig"><img src="assets/cases/F5.png" alt="Case F5" width="1980" height="1206" loading="lazy"><figcaption>Case F5, Bitcoin over 14 days after bullish halving headlines. <strong>(a)</strong> TimeOmni-o1 rises from the first day. <strong>(b)</strong> The fine-tuned TSFM reverts to the mean; the zero-shot one rises too little. <strong>(c)</strong> TimeReasoner reads the momentum and forecasts conservatively. <strong>(d)</strong> The no-reasoning model stays flat on the same headlines; the shuffled headline is bullish as well.</figcaption></figure><p>The history closes at 7,588 after a sustained rise. The headlines before the origin carry halving momentum toward 7,600 and a supportive macro report, and two negatives, a Bitmain layoff report and regulatory pressure from Turkey. The truth climbs to 8,907 and closes at 8,670. The trace weighs the four items, names the two negatives as a short-term counterweight and keeps the halving momentum as the dominant signal; the instruction states a sharp jump to a new high followed by a steady climb. The forecast rises from the first day and ends at 8,448 (CRPS 0.023, ROI PCC 0.94). The fine-tuned TSFM has learned mean reversion on financial series: it falls to 7,424 and flattens (ROI PCC $-0.08$). The zero-shot TSFM and TimeReasoner rise in the right direction but only to 7,872 and 8,000; the reasoning of TimeReasoner reads the momentum and then forecasts &ldquo;about $7900 to $8000&rdquo;. The no-reasoning model reads the same headlines and stays almost flat at 7,744 (CRPS 0.071). One probe separates little here: with shuffled events the forecast still rises (CRPS 0.030), because the substituted headline happens to be bullish as well.</p><details><summary>Background and event description</summary><p class="k">Background</p><pre class="quote">This series records the daily US-dollar price of Bitcoin. It is highly
+volatile with momentum-driven trends and sharp moves, has no fixed seasonality,
+and reacts to adoption news, macro and regulatory developments, and market
+sentiment. Values are positive.</pre><p class="k">Event</p><pre class="quote">Before the forecast origin on 2020-01-07, Bitcoin-related headlines on 2020-01-06 discussed bullish halving-related momentum toward the $7,600 area, a report that the U.S.-Iran conflict was associated in commentary with Bitcoin and gold price growth, a report that Bitmain might lay off half its staff ahead of the Bitcoin halving, and a report that Turkey's Capital Markets Board would put pressure on Bitcoin. Other listed headlines were unrelated to Bitcoin price formation or were future-window items and are excluded.</pre></details>
+<details open><summary>Reasoning trace and forecast instruction generated by TimeOmni-o1</summary><pre class="trace">The ROI spans 2020-01-07 through 2020-01-14. The history window shows Bitcoin in a sustained upward trend from the late 6000s to the 60s close on 2020-01-06, with the halving momentum narrative and positive macro commentary supporting that ascent. The Bitmain layoff report and Turkey regulatory pressure provide a short-term counterweight, but the dominant pre-horizon signal is the halving-driven momentum and positive macro backdrop. The future window opens with a sharp jump to a new high, then climbs with minor oscillation to a crest by 2020-01-14, consistent with the momentum-driven upward trend established in the history window.</pre><p class="final"><span class="k">Forecast instruction</span> Over the span [60, 68), the future window shows a sharp jump to a new high followed by a steady climb with minor oscillation to a crest, ending at its highest point.</p></details>
+<details><summary>Annotated reference trace and instruction</summary><pre class="quote">The selected span runs from 2020-01-11 00:00:00 through 2020-01-18 00:00:00, immediately after the 2020-01-06 pre-horizon headlines about bullish halving momentum, geopolitical-risk commentary around Bitcoin, and regulatory pressure reports. In the history window, the series had already turned upward into the boundary after a weaker period, so this event set aligns with continuation rather than a reversal. That combination matches a multi-day advance in the future window with only short interruptions before the span finishes at its top.</pre><p class="final"><span class="k">Annotated instruction</span> [64, 72) shows a sustained climb with brief pauses, ending at its highest point.</p></details>
+<details><summary>Reasoning of TimeReasoner on the same sample</summary><pre class="quote small tall">We are given a historical time series of Bitcoin daily prices from 2019-11-08 to 2020-01-06 (60 points). Need to predict next 14 days (2020-01-07 to 2020-01-20). Context: Bitcoin is volatile, momentum-driven, no fixed seasonality. Headlines on 2020-01-06: bullish halving momentum toward $7,600, US-Iran conflict associated with Bitcoin and gold growth, Bitmain layoffs, Turkey Capital Markets Board pressure. So mixed but overall sentiment seems somewhat positive (halving momentum, conflict boosting safe haven). However, note the history: price was around 9000 in early Nov, declined steeply to ~7000 by late Nov, then recovered somewhat to ~7600 by Jan 6, showing an uptrend in last few weeks. Let's analyze trend.
+
+Look at recent history: From 2019-12-18 low of 6799, price rose to 7588 on Jan 6. That's about +800 in ~20 days, a strong uptrend. The last few days: Jan 1: 7238, Jan 2: 7127 (dip), Jan 3: 7250, Jan 4: 7390, Jan 5: 7503, Jan 6: 7588. So accelerating upward. Given halving narrative and geopolitical tensions, likely bullish continuation. But note volatility: could have pullbacks. Since no seasonality, we can consider momentum and recent trend. Possibly a short-term correction after rapid rise? But headlines suggest continued bullish momentum toward $7,600 already reached on Jan 6. Possibly price will test higher levels. Given the context, I'd expect continued upward movement with possible consolidation. But need to predict 14 points. Could model as a trend that continues but may slow. Since it's Bitcoin, sharp moves possible. But reasonable forecast: continue rise, perhaps reaching around $8000 by end of forecast period? However, we should be cautious. Let's inspect the trend more quantitatively.
+
+We can do a simple linear regression on recent data (say last 20 days) to get slope. But the instruction is to reason step by step, then output JSON. Let's approximate.
+
+Compute average daily change over last 10 days (from Dec 28 to Jan 6): 
+Dec28: 7361, Dec29: 7469 (+108), Dec30: 7388 (-81), Dec31: 7293 (-95), Jan1: 7238 (-55), Jan2: 7127 (-111), Jan3: 7250 (+123), Jan4: 7390 (+140), Jan5: 7503 (+113), Jan6: 7588 (+85). Sum of changes over 9 intervals: 108-81-95-55-111+123+140+113+85 = 227? Actually compute: 108 + (-81)=27; 27+(-95)=-68; -68+(-55)=-123; -123+(-111)=-234; -234+123=-111; -111+140=29; 29+113=142; 142+85=227. So average daily change = 227/9 ≈ 25.2. That's positive but small relative to price level. However, the recent few days show stronger gains. Over last 5 days (Jan2 to Jan6): changes: +123, +140, +113, +85 = total 461 over 4 intervals, avg 115.25 per day. So recent acceleration. But we must consider that after such a run, a pullback or consolidation is possible. 
+
+Given headlines: bullish halving momentum, Iran conflict, but also Bitmain layoffs (negative) and Turkey pressure (negative). Mixed. But overall, the narrative of halving and safe-haven might dominate. I'd expect the uptrend to continue but at a more moderate pace, perhaps with some consolidation. Since it's only 14 days, we can forecast a gradual rise with some fluctuations. 
+
+Let's attempt to produce a plausible sequence. Starting from 7588 on Jan6. Jan7: maybe continues up to 7650? Then slight pullback? However, we need 14 numbers. Better to think of a trend that extends. Could use a linear trend from recent data. But we should also account for the fact that Bitcoin often has sharp moves. Given the uncertainty, a simple linear extrapolation from last few days might be reasonable. But let's see the overall shape: from early Nov high of 9015 down to 6799 mid-Dec, then up to 7588. The recovery is about 80% of the drop? Not sure.
+
+Alternatively, perhaps the price will break above 7600 and target 8000. Many forecasts around that time were bullish. I recall that in early Jan 2020, Bitcoin was around $7,400 and then rallied to $10,000 by mid-Feb. So actually, the next 14 days from Jan7 to Jan20, 2020, historically Bitcoin went from about $7,400 to $8,700? Let's not use actual future because the task is to predict based on given info, but we can use common knowledge? The instruction says we are a forecaster with context, so we should not rely on after-the-fact knowledge. But we can use the context provided: headlines mention bullish halving momentum toward $7,600 area. So that suggests a target of $7,600, which was almost reached on Jan6 (7588). So maybe it will surpass that.
+
+Given the momentum and positive sentiment, I'll forecast a continued climb but with some volatility. I'll produce a sequence that starts at 7588+50=7638 on Jan7, then maybe a small dip, then rise. But to be systematic, let's compute a simple moving average or exponential smoothing? Or use a heuristic.
+
+I'll estimate the trend using linear regression on the last 20 days (from Dec18 to Jan6). Dec18: 6799, Dec19: 7178, Dec20: 7211, Dec21: 7208, Dec22: 7276, Dec23: 7529, Dec24: 7362, Dec25: 7283, Dec26: 7278, Dec27: 7263, Dec28: 7361, Dec29: 7469, Dec30: 7388, Dec31: 7293, Jan1: 7238, Jan2: 7127, Jan3: 7250, Jan4: 7390, Jan5: 7503, Jan6: 7588. Compute slope using days index (0 for Dec18, 1 for Dec19, ..., 19 for Jan6). Sum x = 0+1+...+19 = 190, sum y = sum of prices, n=20. Compute sum xy and sum x^2. Let's do quickly:
+
+Prices: 
+0:6799
+1:7178
+2:7211
+3:7208
+4:7276
+5:7529
+6:7362
+7:7283
+8:7278
+9:7263
+10:7361
+11:7469
+12:7388
+13:7293
+14:7238
+15:7127
+16:7250
+17:7390
+18:7503
+19:7588
+
+Sum y = 6799+7178=13977; +7211=21188; +7208=28396; +7276=35672; +7529=43201; +7362=50563; +7283=57846; +7278=65124; +7263=72387; +7361=79748; +7469=87217; +7388=94605; +7293=101898; +7238=109136; +7127=116263; +7250=123513; +7390=130903; +7503=138406; +7588=145994. So sum y = 145994.
+
+Sum xy = (0*6799)+(1*7178)+(2*7211)+(3*7208)+(4*7276)+(5*7529)+(6*7362)+(7*7283)+(8*7278)+(9*7263)+(10*7361)+(11*7469)+(12*7388)+(13*7293)+(14*7238)+(15*7127)+(16*7250)+(17*7390)+(18*7503)+(19*7588). Compute stepwise:
+0:0
+1:7178
+2:14422
+3:21624
+4:29104
+5:37645
+6:44172
+7:50981
+8:58224
+9:65367
+10:73610
+11:82159
+12:88656
+13:94809
+14:101332
+15:106905
+16:116000
+17:125630
+18:135054
+19:144172
+Sum = add: 7178+14422=21600; +21624=43224; +29104=72328; +37645=109973; +44172=154145; +50981=205126; +58224=263350; +65367=328717; +73610=402327; +82159=484486; +88656=573142; +94809=667951; +101332=769283; +106905=876188; +116000=992188; +125630=1,117,818; +135054=1,252,872; +144172=1,397,044. So sum xy = 1,397,044.
+
+Sum x^2 = 0^2+1^2+...+19^2 = 19*20*39/6 = (19*20*39)/6 = (19*20=380, 380*39=14820, /6=2470). So sum x^2 = 2470.
+
+Now slope b = (n*sumxy - sumx*sumy) / (n*sumx^2 - (sumx)^2) = (20*1,397,044 - 190*145,994) / (20*2470 - 190^2). Compute numerator: 20*1,397,044 = 27,940,880. 190*145,994 = 190*145,994 = 190*145,000=27,550,000, 190*994=188,860, total 27,738,860. So numerator = 27,940,880 - 27,738,860 = 202,020. Denominator: 20*2470 = 49,400. 190^2=36,100. Denominator = 49,400-36,100=13,300. So slope = 202,020 / 13,300 ≈ 15.19. So average daily increase about $15.19 over last 20 days. That seems low because recent days have higher increases, but the earlier part of the 20-day window had declines? Actually from Dec18 to Jan6, overall upward, but with fluctuations. Slope 15.19 per day. Starting from Jan6 at 7588, linear extrapolation for next 14 days: day0 (Jan7) = 7588 + 15.19 = 7603.19; day1 = 7618.38; ... day13 = 7588 + 14*15.19 = 7588+212.66 = 7800.66. So roughly 7800 by Jan20.
+
+But this linear trend may be too conservative given the recent acceleration. Alternatively, we could fit an exponential trend, but likely not. Given the context of halving and conflict, I expect a stronger rise. However, the linear trend from 20 days gives a plausible baseline. Also note that the price already reached the mentioned $7,600 area, so maybe it will consolidate or pull back before continuing. But headlines indicate continued momentum.
+
+Given the task is to produce a forecast, I'll go with a moderate upward trend with some daily fluctuations. I'll simulate a random walk with drift? But we need specific values. Let's produce a sequence that starts at 7630 on Jan7, then gradually rises to around 8000 by Jan20, with some minor dips. Since it's a forecasting exercise, we can be a bit optimistic. But the instruction says "reason step by step about trend/seasonality/event impact", then output JSON. So our reasoning should reflect the analysis.
+
+I'll state: Trend is clearly upward in recent weeks, driven by halving anticipation and safe-haven demand. No seasonality. Events on Jan6 are mixed but overall positive. Momentum likely to continue, albeit with possible short-term resistance. Forecast: gradual increase, reaching about $7900-$8000 by end of period. I'll produce 14 numbers that follow a roughly linear path with noise.
+
+I'll set v1 (Jan7) = 7620 (slight increase from 7588), v2 = 7680, v3 = 7650 (dip), v4 = 7700, v5 = 7740, v6 = 7770, v7 = 7800, v8 = 7830, v9 = 7860, v10 = 7880, v11 = 7920, v12 = 7940, v13 = 7970, v14 = 8000. That's a pattern. But to be more realistic, I'll add some minor variations.
+
+Alternatively, use the linear trend from 20-day regression but with added positive bias. For example, let's take the slope from last 5 days (115) but that is too high and would give 7588 + 14*115 = 7588+1610 = 9198, which is too high likely. So maybe the recent acceleration is temporary and will slow. So a compromise: slope around 30-40 per day. Let's use 35 per day: 7588+35*14 = 7588+490 = 8078. So target around 8100.
+
+Given the actual historical outcome (if I recall, Bitcoin went from ~7400 to ~8800 in Jan 2020), but we must stick to reasoning.
+
+I'll produce a forecast that starts at 7610, then gradually climbs to around 8000, with some days of consolidation.
+
+Let's write a JSON array of 14 numbers. I'll define them as:
+
+[7625, 7660, 7640, 7700, 7750, 7780, 7810, 7840, 7870, 7900, 7930, 7960, 7980, 8000]
+
+These are plausible.
+
+But we need to ensure they are positive and realistic.
+
+I'll finalize reasoning and output.</pre></details></section><section class="case" id="case-F6"><h4><span class="tag">F6</span> A calendar event reshapes the day (From News to Forecast, California traffic)</h4><figure class="fig"><img src="assets/cases/F6.png" alt="Case F6" width="1980" height="1206" loading="lazy"><figcaption>Case F6, freeway traffic on a public holiday. <strong>(a)</strong> TimeOmni-o1 draws Monday as a weekend and keeps Tuesday&rsquo;s commute peak. <strong>(b)</strong> The text-blind TSFM draws a Monday morning spike. <strong>(c)</strong> TimeReasoner copies the previous Sunday, too low. <strong>(d)</strong> Without the holiday sentence, Monday grows commute structure again.</figcaption></figure><p>The history covers Wednesday to Sunday, with weekday morning peaks of 0.30 to 0.40 and weekend mounds below 0.07. The horizon is Monday and Tuesday, and the text marks Monday as Martin Luther King Day with a weekend-like profile. The truth shows a Monday mound peaking at 0.07 and a Tuesday morning peak of 0.40. The trace places the holiday on indices [120, 144), which matches the annotated ROI exactly, and turns &ldquo;weekend-like&rdquo; into a gradual daytime build without a commute spike. The forecast draws Monday as a weekend (ROI PCC 0.97) and keeps Tuesday&rsquo;s peak. The text-blind TSFM treats Monday as a weekday: the zero-shot and fine-tuned models draw a morning spike of 0.17 and 0.14 (ROI CRPS 0.424 and 0.275). TimeReasoner reads the holiday and copies the previous Sunday, in the right shape but too low. Two readings of the table are plain. The no-reasoning model matches TimeOmni-o1 on the ROI (0.124 against 0.129), so the gain here comes from reading the holiday sentence rather than from the trace; and the no-info probe has the lower full-horizon CRPS (0.173) because it draws Tuesday&rsquo;s peak higher, unrelated to the holiday. Shuffling the event moves the ROI CRPS to 0.273: without the holiday, Monday grows commute structure again.</p><details><summary>Background and event description</summary><p class="k">Background</p><pre class="quote">This series records hourly traffic volume on a California freeway segment, one
+point per hour. The dominant pattern is a daily commute cycle (morning and
+evening peaks, light overnight) and a weekly cycle (weekdays heavier than
+weekends); public holidays reshape the usual weekday pattern. Values are
+non-negative.</pre><p class="k">Event</p><pre class="quote">The Birthday of Martin Luther King, Jr., a US federal public holiday, falls on 2015-01-19, within the future window. The accompanying calendar note states that public holidays on this California freeway segment typically reduce commute peaks toward a weekend-like traffic profile. The regional news headlines dated 2015-01-14 through 2015-01-16 (all before the forecast horizon) cover unrelated topics including local police incidents, political news, and science announcements, and carry no usable leading signal for this road.</pre></details>
+<details open><summary>Reasoning trace and forecast instruction generated by TimeOmni-o1</summary><pre class="trace">The relevant holiday period is 2015-01-19 00:00:00 through 2015-01-19 23:00:00, which matches indices [120, 144) in the future window. In the history window, weekdays usually show stronger commute-driven structure, while the calendar fact marks 2015-01-19 as a federal holiday with a weekend-like profile. That aligns with a gradual daytime build into a late-afternoon high, followed by a steady evening decline, rather than a sharp commute spike.</pre><p class="final"><span class="k">Forecast instruction</span> [120, 144) shows a sustained daytime climb to a late-afternoon peak followed by a steady evening decline.</p></details>
+<details><summary>Annotated reference trace and instruction</summary><pre class="quote">The ROI spans 2015-01-19 00:00 through 2015-01-19 23:00 (rows 120 to 143), coinciding exactly with the MLK Day federal holiday. The history window shows weekdays with prominent sharp dual-peak commute cycles; the calendar fact states that public holidays on this segment reduce those peaks toward a weekend-like profile. Accordingly, the holiday day produces a broad, low-level daytime mound peaking modestly in the mid-morning-to-afternoon range and tapering back to overnight baseline by late evening, with no sharp morning or evening commute spikes present.</pre><p class="final"><span class="k">Annotated instruction</span> Indices [120, 144) covering the full MLK Day holiday on 2015-01-19 show a broad, subdued daytime mound without sharp commute spikes, returning to overnight baseline by end of day.</p></details>
+<details><summary>Reasoning of TimeReasoner on the same sample</summary><pre class="quote small tall">First, I need to understand the data. The history is from 2015-01-14 to 2015-01-18, hourly. The future is 2015-01-19 and 2015-01-20. Note that January 19 is Martin Luther King Jr. Day, a federal holiday. According to context, this holiday reduces commute peaks to a weekend-like profile. So the pattern for Jan 19 (Monday) should be like a weekend day (like Sunday) rather than a typical Monday. Jan 20 is Tuesday, which is a regular weekday, so it should follow the normal weekday pattern.
+
+Let me examine the historical data. I see daily patterns: On weekdays (Jan 14, 15, 16 are Wed, Thu, Fri), there are morning and evening peaks. But note that Jan 15 has some strange values: from 15:00 to 23:00, it's constant 0.0037, which might be an anomaly? Actually, look: On Jan 15, after 14:00 (0.0489), it drops to 0.0037 for hours 15-23. That seems unusual. Perhaps it's a data issue? But I need to work with it. Also Jan 16 (Friday) has a typical pattern but lower peaks? Let's list the days:
+
+- 2015-01-14 (Wednesday): Typical weekday? Morning peak at 07-08 (~0.33, 0.36), then drop to ~0.06 during day, then small evening peak? Actually after 16:00 it's around 0.058, then drops gradually. Evening peak is not very high. But note that at 15:00 it was 0.0577, then 16:00 0.0578, 17:00 0.0595, 18:00 0.0471, so a small evening peak. Then overnight low.
+
+- 2015-01-15 (Thursday): Morning peak: 05:00 0.051, 06:00 0.0958, 07:00 0.2524, 08:00 0.3282, 09:00 0.3108, then 10:00 0.086, etc. But then from 15:00 to 23:00 all are 0.0037, which is very strange. Possibly a data recording error? It might be that the freeway was closed or something? But context doesn't mention. I have to treat data as given. So Thursday afternoon/evening has extremely low values, almost like overnight. That might affect the pattern.
+
+- 2015-01-16 (Friday): Morning peak: 05:00 0.048, 06:00 0.068, 07:00 0.0668, 08:00 0.0418, 09:00 0.0507, then daytime around 0.03-0.05, and a small evening peak? Actually from 14:00 0.0566, 15:00 0.0572, then gradually decreasing. So Friday pattern is lower than Wednesday? Possibly because Friday is end of week? But Wednesday had higher morning peak.
+
+- 2015-01-17 (Saturday): Weekend pattern. Values are low: overnight around 0.0037, then from 05:00 up to 0.0045, 06:00 0.0103, 07:00 0.0156, then gradually increase to around 0.025 during day, then decrease. So typical weekend with no commute peaks, just gradual rise and fall.
+
+- 2015-01-18 (Sunday): Also weekend. Similar to Saturday but with slightly higher values? Actually Sunday: 07:00 0.007, 08:00 0.0228, 09:00 0.0348, then peak around 0.05 from 11:00 to 17:00, then decrease. So Sunday has higher daytime traffic than Saturday? Possibly because people go out for leisure. But note that the overnight of Sunday (Jan 18 00:00-05:00) are lower than Saturday's overnight? Saturday overnight around 0.0038, Sunday overnight around 0.0031 to 0.001, so slightly lower.
+
+Now, the future: Jan 19 (Monday) is a holiday. So it should be like a weekend day. Which weekend? Possibly similar to Sunday? Since Sunday is the nearest weekend day. But also note that Jan 18 is Sunday, and Jan 19 is Monday holiday. So pattern for Jan 19 should be like a weekend day, perhaps like Sunday? But Sunday's pattern: low overnight, then increasing to a midday plateau around 0.05, then decreasing. That seems plausible for a holiday. However, note that the context says "reduce commute peaks toward a weekend-like traffic profile", meaning the morning and evening peaks will be flattened. So no sharp peaks.
+
+Jan 20 (Tuesday) is a regular weekday. So it should follow a typical weekday pattern. But we need to consider what is typical. The weekday patterns vary: Wednesday had high morning peak, Thursday had high morning but strange afternoon, Friday had moderate. Perhaps we should average the weekdays? But better to consider the most recent weekday pattern? Or use the pattern from the previous week? Since we only have data for one week, we can use Wednesday and Friday as typical (excluding Thursday's odd afternoon). Thursday's afternoon seems anomalous, so maybe it's not representative. Alternatively, we can use the pattern of Jan 14 (Wednesday) as a typical weekday? But note that Jan 20 is Tuesday, which is similar to Wednesday perhaps. However, we need to account for the fact that Jan 20 is after a holiday, so there might be some residual effect? Usually, the day after a holiday might be busy, but context doesn't mention. So I'll assume a regular weekday pattern.
+
+Let me list the patterns hour by hour for weekdays:
+
+For Jan 14 (Wed):
+00: 0.0037, 01:0.0037, 02:0.0037, 03:0.0037, 04:0.0037, 05:0.0421, 06:0.1217, 07:0.3315, 08:0.3618, 09:0.0662, 10:0.0577, 11:0.0573, 12:0.0577, 13:0.0583, 14:0.0553, 15:0.0577, 16:0.0578, 17:0.0595, 18:0.0471, 19:0.0323, 20:0.0234, 21:0.0113, 22:0.0041, 23:0.0044
+
+For Jan 15 (Thu): but note the strange drop after 14:00. So only up to 14:00 might be usable? But let's list anyway:
+00:0.0038, 01:0.0037, 02:0.0037, 03:0.0039, 04:0.0065, 05:0.051, 06:0.0958, 07:0.2524, 08:0.3282, 09:0.3108, 10:0.086, 11:0.0469, 12:0.0603, 13:0.0554, 14:0.0489, then 15-23 all 0.0037. So the afternoon is completely flat at baseline. That is likely an error or special event? But no context. So I'll assume this is an outlier and not representative.
+
+For Jan 16 (Fri):
+00:0.0038, 01:0.0037, 02:0.0037, 03:0.0038, 04:0.0104, 05:0.048, 06:0.068, 07:0.0668, 08:0.0418, 09:0.0507, 10:0.0508, 11:0.0386, 12:0.0302, 13:0.0454, 14:0.0566, 15:0.0572, 16:0.036, 17:0.0316, 18:0.0249, 19:0.0167, 20:0.0124, 21:0.012, 22:0.0069, 23:0.0039
+
+Notice that Friday's morning peak is much lower than Wednesday's. At 07:00, Wednesday had 0.3315, Friday had 0.0668. That's a huge difference. Possibly because Friday is a light day? Or maybe there is a pattern? Also Wednesday's morning peak was sharp, Friday's is broad? Actually Friday's peak seems to be at 05-06? 05:0.048, 06:0.068, then 07:0.0668, so it's more of a plateau. That might be because Friday is the end of week. But then Wednesday's pattern shows a sharp morning peak and then a dip, then a small evening peak. Friday shows a dip after morning? Actually after 09:00 it goes up again? Let's see: 09:0.0507, 10:0.0508, then 11:0.0386 (dip), then 12:0.0302, then 13:0.0454, then 14:0.0566, then 15:0.0572, so there is an evening peak at 14-15 but not very high. So overall, weekdays have different patterns.
+
+Given the data, perhaps we should use the most recent weekday? The last weekday in the history is Friday (Jan 16). But note that Friday is followed by weekend, and the holiday is Monday. So for Tuesday (Jan 20), the pattern might be similar to Friday? Or to Wednesday? Typically, Tuesday is similar to Wednesday. But we don't have Tuesday data. I think it's safe to assume that the regular weekday pattern is like the average of the available weekdays, excluding the anomalous Thursday afternoon. But we have only two full weekdays: Wednesday and Friday, and Thursday with a partial pattern. Let's compute average of Wednesday and Friday for each hour, but note that the hours align? Since they are both weekdays, we can take average. But careful: Wednesday and Friday have different peak times. Wednesday's morning peak is at 07-08, Friday's morning peak is at 06-07 (but values are lower). Perhaps the pattern is not consistent. Alternatively, we can use Wednesday's pattern as a typical weekday because it has the classic shape? But then Friday is different. Could it be that Friday is not a typical weekday because it's later in the week? Or perhaps the data has some variability.
+
+Another approach: since we have only one week of data, we can observe that the weekend days (Saturday and Sunday) have a similar pattern: gradual rise to a midday plateau around 0.05, then decline. The weekdays have much higher peaks in the morning. For the holiday Monday, we want a weekend-like pattern. So we can take the pattern from Sunday (Jan 18) as a template for Jan 19, because it's the most recent weekend day. However, note that Sunday's pattern: overnight lows, then rising from 07:00 onwards, peaking around 12-17 at about 0.05, then declining. That seems plausible for a holiday.
+
+For Tuesday Jan 20, we need a weekday pattern. Since we have Wednesday and Friday, let's examine if there is a weekly cycle. The context mentions weekly cycle: weekdays heavier than weekends. But we also see that Friday is lighter than Wednesday? Possibly because Friday is a short day? Or maybe it's due to the anomalous Thursday? Let's check the values: Wednesday's peak is around 0.36, Friday's peak is 0.068, which is much lower. That's a huge difference. Could it be that Wednesday is an outlier? Actually, Wednesday's morning peak is very high, while Thursday's morning peak is also high (0.33), so Wednesday and Thursday have high morning peaks, but Friday is low. That suggests that perhaps Friday is actually a holiday? But Jan 16 is Friday, not a holiday. Or maybe the data for Friday is from a different context? Another possibility: the data for Friday shows a freeway that is less busy? Looking at Friday's pattern, it has a small bump at 05-06, then a plateau around 0.05, similar to weekend? Actually, Friday's daytime values are around 0.03-0.06, similar to weekend. So it seems Friday might also be a light day? But the context says weekdays are heavier than weekends. Let's compare Friday (Jan 16) to Saturday (Jan 17): Saturday's daytime values are around 0.02-0.025, while Friday's are around 0.03-0.06, so Friday is actually higher than Saturday. So Friday is still heavier than weekend, but less heavy than Wednesday. So maybe there is a pattern: Wednesday and Thursday are peak days, Friday is lighter, and weekend is lightest. That could be a weekly pattern.
+
+Given that, for Tuesday, which is early in the week, it might be similar to Wednesday? But we don't have Tuesday data. Often, Tuesday is similar to Wednesday. Since we only have one week, we can use Wednesday as a typical weekday for Tuesday. However, note that Wednesday might be unusually high? Let's check the absolute values: Wednesday 07:00 is 0.33, which is high. But we don't know if that's normal. I think the best approach is to use the pattern from Wednesday for Tuesday, but adjust based on the fact that the holiday on Monday might affect Tuesday? Typically, the day after a holiday might have lingering effects, but context says nothing about that. So I'll assume a regular weekday pattern.
+
+Alternatively, we could use the average of Wednesday and Friday for each hour. But let's compute that. For hours where we have both, but Thursday has data for some hours, we can also include Thursday up to 14:00? But Thursday's afternoon is anomalous, so I'll exclude Thursday entirely because it's not reliable.
+
+Let me list the hours for Wednesday and Friday:
+
+Hour 00: Wed 0.0037, Fri 0.0038 -&gt; avg 0.00375
+01: both 0.0037 -&gt; 0.0037
+02: both 0.0037 -&gt; 0.0037
+03: Wed 0.0037, Fri 0.0038 -&gt; 0.00375
+04: Wed 0.0037, Fri 0.0104 -&gt; avg (0.0037+0.0104)/2=0.00705
+05: Wed 0.0421, Fri 0.048 -&gt; avg 0.04505
+06: Wed 0.1217, Fri 0.068 -&gt; avg 0.09485
+07: Wed 0.3315, Fri 0.0668 -&gt; avg 0.19915
+08: Wed 0.3618, Fri 0.0418 -&gt; avg 0.2018
+09: Wed 0.0662, Fri 0.0507 -&gt; avg 0.05845
+10: Wed 0.0577, Fri 0.0508 -&gt; avg 0.05425
+11: Wed 0.0573, Fri 0.0386 -&gt; avg 0.04795
+12: Wed 0.0577, Fri 0.0302 -&gt; avg 0.04395
+13: Wed 0.0583, Fri 0.0454 -&gt; avg 0.05185
+14: Wed 0.0553, Fri 0.0566 -&gt; avg 0.05595
+15: Wed 0.0577, Fri 0.0572 -&gt; avg 0.05745
+16: Wed 0.0578, Fri 0.036 -&gt; avg 0.0469
+17: Wed 0.0595, Fri 0.0316 -&gt; avg 0.04555
+18: Wed 0.0471, Fri 0.0249 -&gt; avg 0.036
+19: Wed 0.0323, Fri 0.0167 -&gt; avg 0.0245
+20: Wed 0.0234, Fri 0.0124 -&gt; avg 0.0179
+21: Wed 0.0113, Fri 0.012 -&gt; avg 0.01165
+22: Wed 0.0041, Fri 0.0069 -&gt; avg 0.0055
+23: Wed 0.0044, Fri 0.0039 -&gt; avg 0.00415
+
+This average pattern has a high morning peak around 0.2, then dips, then a plateau around 0.05 in the afternoon, then evening decline. That seems reasonable for a weekday. But note that this average is influenced by Wednesday's high peak. If we consider that Friday's pattern is more typical? Actually, Friday's pattern is more similar to weekend but with higher values. Perhaps the true weekday pattern is between these. Since we have only two weekdays, we'll use this average for Tuesday. However, we need to consider that Tuesday might be like Wednesday because it's early in the week. I'll go with the average.
+
+For the holiday Monday (Jan 19), we'll use Sunday's pattern. Sunday (Jan 18) pattern:
+
+00:0.0031, 01:0.0021, 02:0.0016, 03:0.001, 04:0.0011, 05:0.0014, 06:0.0023, 07:0.007, 08:0.0228, 09:0.0348, 10:0.0435, 11:0.053, 12:0.0476, 13:0.0521, 14:0.0544, 15:0.0524, 16:0.0528, 17:0.0496, 18:0.0398, 19:0.0316, 20:0.0255, 21:0.0185, 22:0.0066, 23:0.003
+
+That's a good weekend pattern.
+
+Now, the future window is from Jan 19 00:00 to Jan 20 23:00, which is 48 hours. So indices [120,168) correspond to 00:00 Jan 19 to 23:00 Jan 20. So for the first 24 hours (Jan 19), we use Sunday's pattern, and for the next 24 hours (Jan 20), we use the average weekday pattern.
+
+But we need to be consistent with the hourly timestamps. Also note that the historical data ends at Jan 18 23:00. So Jan 19 00:00 is the first forecast point.
+
+Let me list the Sunday pattern for Jan 19:
+
+00: 0.0031
+01: 0.0021
+02: 0.0016
+03: 0.001
+04: 0.0011
+05: 0.0014
+06: 0.0023
+07: 0.007
+08: 0.0228
+09: 0.0348
+10: 0.0435
+11: 0.053
+12: 0.0476
+13: 0.0521
+14: 0.0544
+15: 0.0524
+16: 0.0528
+17: 0.0496
+18: 0.0398
+19: 0.0316
+20: 0.0255
+21: 0.0185
+22: 0.0066
+23: 0.003
+
+These are the values for Jan 19.
+
+Then for Jan 20, we need the average weekday pattern (from Wed and Fri):
+
+Based on the averages above:
+
+00: 0.00375
+01: 0.0037
+02: 0.0037
+03: 0.00375
+04: 0.00705
+05: 0.04505
+06: 0.09485
+07: 0.19915
+08: 0.2018
+09: 0.05845
+10: 0.05425
+11: 0.04795
+12: 0.04395
+13: 0.05185
+14: 0.05595
+15: 0.05745
+16: 0.0469
+17: 0.04555
+18: 0.036
+19: 0.0245
+20: 0.0179
+21: 0.01165
+22: 0.0055
+23: 0.00415
+
+That's for Jan 20.
+
+But note: The historical data for Friday (Jan 16) had a pattern that might be more appropriate for Tuesday? Actually, Tuesday is not a Friday. There's no strong reason to believe that Tuesday matches Friday. Often, Tuesday is heavier than Friday. So I think the average is reasonable. However, we might also consider that the holiday might affect Tuesday's morning commute? For instance, some people might take the day off, but context doesn't say. So I'll stick with the average.
+
+Also, note that the historical data shows that Sunday had slightly lower overnight values than Saturday? Sunday's overnight (Jan 18 00-05) are lower than Saturday's overnight (Jan 17). But we are using Sunday's pattern for Monday holiday. That seems fine.
+
+Now, we need to output the 48 numbers in order: first 24 for Jan 19, then 24 for Jan 20.
+
+Let me list them:
+
+Jan 19 (hours 00-23):
+0.0031, 0.0021, 0.0016, 0.001, 0.0011, 0.0014, 0.0023, 0.007, 0.0228, 0.0348, 0.0435, 0.053, 0.0476, 0.0521, 0.0544, 0.0524, 0.0528, 0.0496, 0.0398, 0.0316, 0.0255, 0.0185, 0.0066, 0.003
+
+Jan 20 (hours 00-23):
+0.00375, 0.0037, 0.0037, 0.00375, 0.00705, 0.04505, 0.09485, 0.19915, 0.2018, 0.05845, 0.05425, 0.04795, 0.04395, 0.05185, 0.05595, 0.05745, 0.0469, 0.04555, 0.036, 0.0245, 0.0179, 0.01165, 0.0055, 0.00415
+
+Now, we need to ensure these numbers are precise to about 4 decimal places, as the historical data is given to 4 decimal places. Some averages have 5 decimals, but we can round to 4. For example, 0.00375 can be kept as 0.0038? But careful: 0.00375 is 0.0038 if rounded to 4 decimals? Actually 0.00375 rounded to 4 decimals is 0.0038? No, 0.00375 to 4 decimal places: the fifth decimal is 5, so round up: 0.0038. But if we keep as 0.00375, it's fine in JSON. However, the historical values are given to 4 decimal places, so I'll round to 4 decimals for consistency. Let's round each.
+
+For Jan 19: all are given to 4 decimals already. For Jan 20: 
+0.00375 -&gt; 0.0038 (since 0.00375, round up to 0.0038)
+0.0037 -&gt; 0.0037
+0.0037 -&gt; 0.0037
+0.00375 -&gt; 0.0038
+0.00705 -&gt; 0.0071 (0.00705 round to 0.0071? Actually 0.00705, the fourth decimal is 0, fifth is 5, so round up: 0.0071)
+0.04505 -&gt; 0.0451 (since 0.04505, round to 0.0451)
+0.09485 -&gt; 0.0949 (0.09485 round to 0.0949)
+0.19915 -&gt; 0.1992 (0.19915 round to 0.1992)
+0.2018 -&gt; 0.2018 (already 4 decimals)
+0.05845 -&gt; 0.0585 (0.05845 round to 0.0585)
+0.05425 -&gt; 0.0543 (0.05425 round to 0.0543)
+0.04795 -&gt; 0.0480 (0.04795 round to 0.0480)
+0.04395 -&gt; 0.0440 (0.04395 round to 0.0440)
+0.05185 -&gt; 0.0519 (0.05185 round to 0.0519)
+0.05595 -&gt; 0.0560 (0.05595 round to 0.0560)
+0.05745 -&gt; 0.0575 (0.05745 round to 0.0575)
+0.0469 -&gt; 0.0469 (already 4)
+0.04555 -&gt; 0.0456 (0.04555 round to 0.0456)
+0.036 -&gt; 0.0360 (add trailing zero? Usually keep as 0.036)
+0.0245 -&gt; 0.0245
+0.0179 -&gt; 0.0179
+0.01165 -&gt; 0.0117 (0.01165 round to 0.0117)
+0.0055 -&gt; 0.0055
+0.00415 -&gt; 0.0042 (0.00415 round to 0.0042)
+
+But note: In the historical data, they have values like 0.0037, 0.0038, etc. So keeping 4 decimal places is fine.
+
+Alternatively, we could keep the exact averages without rounding, but the task likely expects reasonable precision. I'll use the rounded values.
+
+Now, let's double-check the weekend pattern for Jan 19: Is it correct to use Sunday? The holiday is Monday, so the pattern on Monday might be similar to Sunday, but also note that Saturday's pattern is slightly different. Sunday's daytime values are higher than Saturday's (e.g., Sunday 12:00 0.0476, Saturday 12:00 0.025). So Sunday is busier. The holiday might be like a weekend day, but which one? Typically, public holidays on weekdays can have traffic patterns similar to a weekend, often like Saturday or Sunday? Since it's a Monday, many people might have a long weekend, so it could be like a Sunday. Actually, MLK Day is a Monday, so many people have a three-day weekend, so Monday might be like a Sunday. I think Sunday pattern is reasonable.
+
+Also, consider that the historical data for Sunday (Jan 18) might be a typical Sunday. So I'll use it.
+
+Now, we need to output the JSON array. Ensure exactly 48 numbers.
+
+Let me list them in order:
+
+For Jan 19 (24 numbers):
+0.0031, 0.0021, 0.0016, 0.001, 0.0011, 0.0014, 0.0023, 0.007, 0.0228, 0.0348, 0.0435, 0.053, 0.0476, 0.0521, 0.0544, 0.0524, 0.0528, 0.0496, 0.0398, 0.0316, 0.0255, 0.0185, 0.0066, 0.003
+
+For Jan 20 (24 numbers):
+0.0038, 0.0037, 0.0037, 0.0038, 0.0071, 0.0451, 0.0949, 0.1992, 0.2018, 0.0585, 0.0543, 0.0480, 0.0440, 0.0519, 0.0560, 0.0575, 0.0469, 0.0456, 0.0360, 0.0245, 0.0179, 0.0117, 0.0055, 0.0042
+
+Now, combine into one array.
+
+I'll write the JSON.</pre></details></section>
+  <figure class="tblwrap" id="tab-case-fc"><figcaption><span class="lbl">Table 5.</span> The three forecasting cases: CRPS over the full horizon (full) and over the ROI, and the Pearson correlation of the median forecast with the truth over the ROI (PCC). None, shuffled events and no-info are the three text conditions of Figure 3(b) of the paper. Bold marks the best value in each column.</figcaption><div class="scroll"><table class="tbl">
+<thead>
+<tr><th></th><th colspan="3" class="ctr">F1 Solar</th><th colspan="3" class="ctr">F5 Finance</th><th colspan="3" class="ctr">F6 Traffic</th></tr>
+<tr><th>Model</th><th class="ctr">full</th><th class="ctr">ROI</th><th class="ctr">PCC</th><th class="ctr">full</th><th class="ctr">ROI</th><th class="ctr">PCC</th><th class="ctr">full</th><th class="ctr">ROI</th><th class="ctr">PCC</th></tr>
+</thead>
+<tbody>
+<tr class="ours"><td><strong>TimeOmni-o1 (Ours)</strong></td><td class="num"><strong>0.183</strong></td><td class="num"><strong>0.177</strong></td><td class="num">0.92</td><td class="num"><strong>0.023</strong></td><td class="num"><strong>0.023</strong></td><td class="num">0.94</td><td class="num">0.193</td><td class="num">0.129</td><td class="num"><strong>0.97</strong></td></tr>
+<tr><td>None (no reasoning)</td><td class="num">0.205</td><td class="num">0.200</td><td class="num">0.89</td><td class="num">0.071</td><td class="num">0.077</td><td class="num">0.71</td><td class="num">0.232</td><td class="num"><strong>0.124</strong></td><td class="num">0.94</td></tr>
+<tr><td>Shuffled events</td><td class="num">0.486</td><td class="num">0.478</td><td class="num">0.94</td><td class="num">0.030</td><td class="num">0.031</td><td class="num">0.94</td><td class="num">0.230</td><td class="num">0.273</td><td class="num">0.84</td></tr>
+<tr><td>No-info</td><td class="num">1.161</td><td class="num">1.153</td><td class="num">0.97</td><td class="num">0.048</td><td class="num">0.053</td><td class="num">0.91</td><td class="num"><strong>0.173</strong></td><td class="num">0.152</td><td class="num">0.90</td></tr>
+<tr><td>TimeOmni-o1&rsquo;s TSFM</td><td class="num">1.196</td><td class="num">1.189</td><td class="num">0.97</td><td class="num">0.052</td><td class="num">0.057</td><td class="num">0.96</td><td class="num">0.341</td><td class="num">0.424</td><td class="num">0.61</td></tr>
+<tr><td>TimeOmni-o1&rsquo;s TSFM$\ddagger$</td><td class="num">0.859</td><td class="num">0.850</td><td class="num"><strong>0.98</strong></td><td class="num">0.079</td><td class="num">0.087</td><td class="num">$-$0.08</td><td class="num">0.246</td><td class="num">0.275</td><td class="num">0.72</td></tr>
+<tr><td>TimeReasoner</td><td class="num">1.493</td><td class="num">1.493</td><td class="num">0.97</td><td class="num">0.072</td><td class="num">0.080</td><td class="num">0.94</td><td class="num">0.429</td><td class="num">0.314</td><td class="num">0.85</td></tr>
+<tr><td>DoubleCast</td><td class="num">1.156</td><td class="num">1.156</td><td class="num">0.98</td><td class="num">0.078</td><td class="num">0.090</td><td class="num">0.89</td><td class="num">0.532</td><td class="num">0.211</td><td class="num">0.94</td></tr>
+<tr><td>TimeOmni$\ddagger$</td><td class="num">1.328</td><td class="num">1.327</td><td class="num">0.96</td><td class="num">0.150</td><td class="num">0.167</td><td class="num">0.83</td><td class="num">0.424</td><td class="num">0.215</td><td class="num">0.86</td></tr>
+<tr><td>UniTS-x128$\ddagger$</td><td class="num">1.665</td><td class="num">1.567</td><td class="num">0.96</td><td class="num">0.079</td><td class="num">0.083</td><td class="num"><strong>0.97</strong></td><td class="num">0.291</td><td class="num">0.276</td><td class="num">0.83</td></tr>
+<tr><td>ChatTime-1-7B</td><td class="num">1.001</td><td class="num">1.000</td><td class="num">$-$0.33</td><td class="num">0.138</td><td class="num">0.152</td><td class="num">0.94</td><td class="num">0.720</td><td class="num">0.596</td><td class="num">0.75</td></tr>
+</tbody></table></div></figure>
+  <p>Across the six cases, reasoning pays on understanding where the answer must be computed, in counting and in a statistical criterion, and where a category is decided by a calibrated criterion rather than by the direction of the series. On forecasting, the text supplies what the history cannot: the magnitude of a rainy day after three clear ones, the direction of a market under conflicting headlines, and the shape of a holiday. The text-blind TSFM extrapolates the history whether or not it is fine-tuned, and a forecaster that reads the text but writes the numbers itself reads correctly and writes conservatively. The probes on one checkpoint separate reading the text from reasoning about it: removing the text returns the forecast to the zero-shot level, and the no-reasoning model trails on F1 and F5 and ties on F6, in line with the average tie of Figure 3(b) of the paper. The cases illustrate the mechanism; the statistics are those of Section 6.3 of the paper.</p>
+</section>
+
+</div>
+</div>
+</main>
+
+<footer class="foot">
+  <p>This page accompanies an anonymous submission under double-blind review. All text, figures and numbers are taken from the submitted manuscript and its appendix. TimeOmni-o1 and MMTR are the names used in the manuscript.</p>
+</footer>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  var ids=links.map(function(a){return a.getAttribute('href').slice(1)});
+  var els=ids.map(function(i){return document.getElementById(i)});
+  function upd(){
+    var y=window.scrollY+120, cur=0;
+    for(var i=0;i<els.length;i++){ if(els[i]&&els[i].offsetTop<=y) cur=i; }
+    links.forEach(function(a,i){a.classList.toggle('on',i===cur)});
+  }
+  window.addEventListener('scroll',upd,{passive:true}); upd();
+})();
+</script>
+</body>
+</html>
