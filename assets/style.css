@@ -37,6 +37,7 @@ strong{font-weight:600;color:var(--ink)}
 h1{font-family:var(--display);font-weight:600;font-size:clamp(1.9rem,3.6vw,3rem);line-height:1.12;color:var(--ink);margin:0 0 20px;letter-spacing:-.01em;max-width:30ch}
 h1 .colon{color:var(--blue)}
 h1 .sub{font-weight:500;font-style:italic;color:#3b4148}
+.links{font-family:var(--mono);font-size:.8rem;margin:0 0 14px}
 .lede{font-size:1.12rem;line-height:1.55;max-width:70ch;color:var(--text);margin:0 0 34px}
 .hero-plot{border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong);padding:0;background:var(--surface)}
 .hero-series{display:block;width:100%;height:150px}
